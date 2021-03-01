@@ -21,7 +21,8 @@
 </head>
 
 <body class="bg-gradient-primary">
-
+<form method="POST" action="{{ route('login') }}">
+                        @csrf
   <div class="container">
 
     <!-- Outer Row -->
@@ -46,10 +47,20 @@
                       <input type="hidden" class="form-control form-control-user" name="user"  >
                     </div> -->
                   <div class="form-group">
-                      <input type="text" class="form-control form-control-user" name="user" id="user"  placeholder="Enter Admin Name...">
+                      <input type="text" class="form-control form-control-user" name="username" id="username"  placeholder="Enter Admin Name..." value="{{ old('username') }}" required autocomplete="username" autofocus>
+                                 @error('username')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control form-control-user" name="pass" id="pass" placeholder="Password">
+                      <input type="password" class="form-control form-control-user" name="password" id="password" placeholder="Password">
+                      @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                     </div>
                    
                     <input type="submit" class="btn btn-primary btn-user btn-block" name="submit">
@@ -58,7 +69,12 @@
                   </form>
                   <hr>
                   <div class="text-center">
-                    <a class="small" href="#">Forgot Password?</a>
+                    
+                    @if (Route::has('password.request'))
+                                    <a class="btn btn-link" href="{{ route('password.request') }}">
+                                        {{ __('Forgot Your Password?') }}
+                                    </a>
+                                @endif
                   </div>
                 
                 </div>
@@ -75,7 +91,7 @@
     </div>
 
   </div>
-
+</form>
   <!-- Bootstrap core JavaScript-->
   <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
   <script src="{{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
