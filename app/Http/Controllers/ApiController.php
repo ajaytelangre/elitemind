@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Your_daily_routine;
+use App\Models\Loa_mission;
 use Validator;
 
 class ApiController extends Controller
@@ -32,4 +33,29 @@ class ApiController extends Controller
 
 
     }
+
+    public function get_mission(Request $request){
+
+        $validatedData=Validator::make($request->all(),[
+            "user_id"=>"required"
+        ]);
+
+        if($validatedData->fails())
+        {
+            return response()->json([
+                "message"=>"validation fail"
+            ]);
+        }
+        else{
+            $id=$request->user_id;
+            $info=Loa_mission::where('id',$id)->first();
+            return $info;
+
+
+        }
+
+
+    }
+
+
 }
