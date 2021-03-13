@@ -19,3 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/get_daily_routine',[ApiController ::class,'get_daily_routine']);
+Route::post('/get_mission',[ApiController ::class,'get_mission']);
