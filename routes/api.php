@@ -20,3 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/get_daily_routine',[ApiController ::class,'get_daily_routine']);
 Route::post('/get_mission',[ApiController ::class,'get_mission']);
+Route::post('/get_loa_90',[ApiController ::class,'get_loa_90']);
+Route::post('/get_loa_30',[ApiController ::class,'get_loa_30']);
