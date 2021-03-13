@@ -22,3 +22,5 @@ Route::post('/get_daily_routine',[ApiController ::class,'get_daily_routine']);
 Route::post('/get_mission',[ApiController ::class,'get_mission']);
 Route::post('/get_loa_90',[ApiController ::class,'get_loa_90']);
 Route::post('/get_loa_30',[ApiController ::class,'get_loa_30']);
+Route::post('/get_loa_plan_of_day',[ApiController ::class,'get_loa_plan_of_day']);
+Route::post('/get_loa_daily_planner',[ApiController ::class,'get_loa_daily_planner']);
