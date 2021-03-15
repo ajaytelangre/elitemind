@@ -203,7 +203,7 @@
                                         <!-- edit modal -->
                                         <div class="modal fade" id="edit{{$a}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
-                                            <form action="{{'/edit_user'}}" method="post">
+                                            <form action="{{url('/edit_user')}}" method="post">
                                             @csrf
                                             <input type="hidden" value="{{$us->id}}" name="id">
                                               <div class="modal-content">
