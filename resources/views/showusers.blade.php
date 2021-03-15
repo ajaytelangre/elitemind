@@ -55,6 +55,15 @@
                               <!-- Page Heading -->
                                 <div class="col-md-12"><h2>Registerd User</h2></div>
                               <!-- Page Heading End -->
+                            
+
+                              @if(Session::has("message"))
+                               <div class="col-md-12 text-danger"><h6>{{Session::get('message')}}</h6></div>
+                              @endif
+
+                              @if(Session::has("success"))
+                               <div class="col-md-12 text-success"><h6>{{Session::get('success')}}</h6></div>
+                              @endif
 
                             <!-- Add user Modal Button -->
                             <div class="col-md-3 mt-1">
@@ -69,8 +78,10 @@
                                                 <span aria-hidden="true">&times;</span>
                                               </button>
                                             </div>
+                                            <form action="{{url('/register_user')}}" method="post" >
+                                            @csrf
                                             <div class="modal-body">
-                                              <form action="showusers.php" >
+                                             
                                                 <div class="form-group">
                                                   <input type="text" class="form-control" name="name" placeholder="Full Name" id="recipient-name">
                                                 </div>
@@ -98,17 +109,29 @@
                                                 <div class="form-group">
                                                   <input type="text" class="form-control" name="qualification" placeholder="Qualification" id="recipient-name">
                                                 </div>
-                                              </form>
+                                             
                                             </div>
+                                           
                                             <div class="modal-footer">
                                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                              <button type="button" class="btn btn-primary">Save</button>
+                                              <button type="submit" class="btn btn-primary">Save</button>
                                             </div>
+                                            </form>
                                           </div>
                                         </div>
                                       </div>
                               </div>
                             <!-- Add user Modal Button End -->
+
+                            @if ($errors->any())
+                                <div class="text-danger" alert-danger”>
+                                <ul>
+                                @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                                @endforeach
+                                </ul>
+                              </div>
+                              @endif
                             
                            
     </div>
@@ -144,7 +167,8 @@
                                        
 
 
-                                        <td><a href="#"><button class="btn btn-success"><img  src="img/edit.png"  alt=""></button></a> <a href="#"><button class="btn btn-danger"><img  src="img/delete.png"  alt=""></button></a></td> 
+                                        <td><a href="#"><button class="btn btn-success"><img  src="img/edit.png"  alt=""></button></a> <a href="#">
+                                        <button class="btn btn-danger mt-1"><img  src="img/delete.png"  alt=""></button></a></td> 
                                         <!-- <th><a href="jcts.php?del= "><img src="Image/delete.png"></a></th> -->
 
                                         </tr>

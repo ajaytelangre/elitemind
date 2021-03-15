@@ -21,5 +21,6 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('/logout',[HomeController::class,'logout']);
 Route::get('/showuser',[AdminController::class,'showuser']);
+Route::post('/register_user',[AdminController::class,'register_user']);
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
