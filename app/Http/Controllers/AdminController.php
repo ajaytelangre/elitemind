@@ -72,4 +72,52 @@ class AdminController extends Controller
         }
         
     }
+
+
+    public function edit_user(Request $request){
+      
+      
+
+        $validatedData=Validator::make($request->all(),[
+            "name"=>"required",
+            "address"=>"required",
+            "dob"=>"required",
+            "profession"=>"required",
+            "qualification"=>"required",
+        ]);
+
+        if($validatedData->fails())
+        {
+           
+            return Redirect::back()->withErrors($validatedData);
+        }
+        else{
+            
+           
+                $id=$request->id;
+                $register=Register::find($id);
+                $register->username=$request->name;
+                $register->address=$request->address;
+                $register->dob=$request->dob;
+                $register->profession=$request->profession;
+                $register->graduation=$request->qualification;  
+                $register->save();
+                return Redirect::back()->with("success","Data Update");
+
+        }
+        
+    }
+
+    public function delete_user($id){
+        $register=Register::find($id);
+        $register->delete();
+        return Redirect::back()->with("success","User Deleted");
+    }
+
+    public function basicplan(Request $request){
+        return view('basicplan');
+
+    }
+
+
 }
