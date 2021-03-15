@@ -24,7 +24,7 @@ class AdminController extends Controller
     }
 
     public function register_user(Request $request){
-      //  return $request->all();
+      
 
         $validatedData=Validator::make($request->all(),[
             "name"=>"required",
@@ -70,6 +70,6 @@ class AdminController extends Controller
 
 
         }
-        return $request->all();
+        
     }
 }
