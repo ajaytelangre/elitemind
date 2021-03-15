@@ -154,6 +154,7 @@
                                             </tr>
                                           </thead>
                                         <tbody>
+                                        <?php $a=0; ?>
                                         @foreach($users as $us)
                                         <tr>
                                         <td>{{$us->username}}</td>
@@ -167,11 +168,82 @@
                                        
 
 
-                                        <td><a href="#"><button class="btn btn-success"><img  src="img/edit.png"  alt=""></button></a> <a href="#">
-                                        <button class="btn btn-danger mt-1"><img  src="img/delete.png"  alt=""></button></a></td> 
+                                        <td>
+                                        <a href="#"><button class="btn btn-success"  data-toggle="modal" data-target="#edit{{$a}}"><img  src="{{asset('img/edit.png')}}"  alt=""></button></a> 
+                                        <a class="btn btn-danger mt-1"  data-toggle="modal" data-target="#delete{{$a}}"><img  src="{{asset('img/delete.png')}}"  alt=""></a>
+                                        </td> 
                                         <!-- <th><a href="jcts.php?del= "><img src="Image/delete.png"></a></th> -->
 
                                         </tr>
+
+                                        <!-- delete modal -->
+                                        <div class="modal fade" id="delete{{$a}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                          <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                              <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                  <span aria-hidden="true">&times;</span>
+                                                </button>
+                                              </div>
+                                              <div class="modal-body">
+                                                <label>Confirm Delete User</label><br>
+                                                <label>Id: {{$us->id}}</label>
+                                              </div>
+                                              <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <a href="{{url('/delete_user/'.$us->id)}}" type="button" class="btn btn-primary">Delete</a>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <!-- delete modal -->
+
+                                        <!-- edit modal -->
+                                        <div class="modal fade" id="edit{{$a}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                            <form action="{{'/edit_user'}}" method="post">
+                                            @csrf
+                                            <input type="hidden" value="{{$us->id}}" name="id">
+                                              <div class="modal-content">
+                                                <div class="modal-header">
+                                                  <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                <div class="form-group">
+                                                  <input type="text" class="form-control" name="name" placeholder="Full Name" id="recipient-name" value="{{$us->username}}">
+                                                </div>
+                                                
+                                                
+                                                <div class="form-group">
+                                                  <input type="text" class="form-control" name="address" placeholder="Address" id="recipient-name" value="{{$us->address}}">
+                                                </div>
+                                                <div class="form-group">
+                                                  <input type="text" class="form-control" name="dob" placeholder="Date of Birth" id="recipient-name" value="{{$us->dob}}">
+                                                </div>
+                                                <div class="form-group">
+                                                  <input type="text" class="form-control" name="profession" placeholder="Profession" id="recipient-name" value="{{$us->profession}}">
+                                                </div>
+                                                <div class="form-group">
+                                                  <input type="text" class="form-control" name="qualification" placeholder="Qualification" id="recipient-name" value="{{$us->graduation}}">
+                                                </div>
+                                                  
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                  <button type="submit" class="btn btn-primary">Save changes</button>
+                                                </div>
+                                              </div>
+                                              </form>
+                                            </div>
+                                          </div>
+                                        <!-- edit modal -->
+                                        <?php $a++ ?>
                                         @endforeach
                                           </tbody>
                                          
