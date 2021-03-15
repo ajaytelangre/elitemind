@@ -29,7 +29,7 @@
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-      <a class="nav-link collapsed" href="showusers.php" >
+      <a class="nav-link collapsed" href="{{url('/showuser')}}" >
           <i class="fas fa-fw fa-cog"></i>
           <span>Register Users</span>
         </a>
