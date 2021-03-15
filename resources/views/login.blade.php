@@ -48,20 +48,22 @@
                     </div> -->
                   <div class="form-group">
                       <input type="text" class="form-control form-control-user" name="username" id="username"  placeholder="Enter Admin Name..." value="{{ old('username') }}" required autocomplete="username" autofocus>
-                                 @error('username')
-                                    <span class="invalid-feedback" role="alert">
+                              
+                    </div>
+                    @error('username')
+                                    <span class="text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                    </div>
                     <div class="form-group">
                       <input type="password" class="form-control form-control-user" name="password" id="password" placeholder="Password">
-                      @error('password')
-                                    <span class="invalid-feedback" role="alert">
+                     
+                    </div>
+                    @error('password')
+                                    <span class="text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                    </div>
                    
                     <input type="submit" class="btn btn-primary btn-user btn-block" name="submit">
               
