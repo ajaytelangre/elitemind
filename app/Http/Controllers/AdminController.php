@@ -119,5 +119,9 @@ class AdminController extends Controller
 
     }
 
+    public function loaplanner(){
+        return view('loaplanner');
+    }
+
 
 }

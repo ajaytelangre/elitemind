@@ -6,3 +6,8 @@
 .myToggleButton{
     margin-top: 250px;
 }
+
+.sub_points{
+    border: 0 !important;
+    border-radius:0 !important;
+}
