@@ -10,11 +10,17 @@ use App\Models\Loa_30_day_goals;
 use App\Models\Loa_plan_of_day;
 use App\Models\Loa_daily_planner;
 use App\Models\Loa_how_was_day;
+use App\Models\Subscription;
 use Validator;
 
 class ApiController extends Controller
 {
     //
+    public function get_plans(){
+        $plans=Subscription::get();
+        return $plans;
+
+    }
 
     public function get_daily_routine(Request $request){
 

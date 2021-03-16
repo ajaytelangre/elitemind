@@ -138,6 +138,7 @@
          <!-- Show Users table -->
       <div class="row">
         <div class="col-lg-12">
+        <div class="table-responsive" style="max-height: 500px;">
           <table class="table mt-3">
                                           <thead class="bg-primary text-white">
                                             <tr>
@@ -248,6 +249,7 @@
                                           </tbody>
                                          
           </table>
+          </div>
         </div>
       </div>
                             <!-- Show Users table End-->
@@ -257,13 +259,7 @@
           
 
       <!-- Footer -->
-      <footer class="sticky-footer bg-white myFooter">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; E Web Digital 2020</span>
-          </div>
-        </div>
-      </footer>
+      @include('footer')
       <!-- End of Footer -->
 
     </div>

@@ -47,9 +47,36 @@
 
     
      <div class="container">
-     <H3>Basic Planner</H3>
+     <H3>Law of Attraction Planner</H3>
 
         <div class="row mt-3">
+        <!-- table -->
+        <div class="table-responsive" style="max-height: 500px;">
+        <table class="table">
+            <thead class="bg-primary text-white">
+                <tr>
+                <th scope="col">Username</th>
+                <th scope="col">Plan</th>
+                <th scope="col">Months</th>
+                <th scope="col">Rs</th>
+                <th scope="col">Payment Method</th>
+                <th scope="col">View</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+                <td>Otto</td>
+                <td><button type="button" class="btn btn-primary btn-sm btn-block"> View</button></td>
+                </tr>
+                
+            </tbody>
+            </table>
+        </div>
+        <!-- table -->
            
         </div>
      </div>

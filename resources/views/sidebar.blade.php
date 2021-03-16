@@ -14,7 +14,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="index.php">
+        <a class="nav-link" href="{{url('/home')}}">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -57,8 +57,20 @@
             <a class="collapse-item" href="{{url('/basicplan')}}">Basic Planner</a>
             <a class="collapse-item" href="subscribe.php">Student Planner</a>
             <a class="collapse-item" href="subscribe.php">Executive Planner</a>
-            <a class="collapse-item" href="loaplan.php">Law of Attraction Planner</a>
-           
+            <a class="collapse-item" data-toggle="collapse" href="#loaplanner" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Law of Attraction Planner</a>
+           <!-- loa collapse -->
+           <div class="row ">
+                <div class="col-12 mt-0">
+                  <div class="collapse multi-collapse" id="loaplanner">
+                    <div class="card sub_points">
+                    <a class="collapse-item text-wrap" href="{{url('/loaplanner')}}">Law of Attraction  Planner</a>
+                    <a class="collapse-item text-wrap" href="subscribe.php">User Daily Routine</a>
+                    </div>
+                  </div>
+                </div>
+             
+
+           <!-- loa collapse -->
 
           </div>
         </div>
