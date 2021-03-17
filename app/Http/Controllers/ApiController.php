@@ -74,8 +74,9 @@ class ApiController extends Controller
 
     }
 
-    public function get_plans(){
-        $plans=Subscription::get();
+    public function get_plans(Request $request){
+        $plan_id=$request->planner_id;
+        $plans=Subscription::where('planner_id',$plan_id)->get();
         return $plans;
 
     }
