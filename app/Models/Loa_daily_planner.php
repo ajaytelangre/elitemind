@@ -10,11 +10,11 @@ class Loa_daily_planner extends Model
     use HasFactory;
 
 
-    protected $table="loa_daily_planner";
+   // protected $table="loa_daily_planner";
     protected $fillable = [
         '*'
     ];
-    public $timestamps = false;
+    //public $timestamps = false;
 
 
 }
