@@ -80,7 +80,7 @@ class ApiController extends Controller
         
 
         $validatedData=Validator::make($request->all(),[
-            "planner_id"=>"required"
+            //"planner_id"=>"required"
         ]);
 
         if($validatedData->fails())
@@ -90,9 +90,9 @@ class ApiController extends Controller
             ]);
         }
         else{
-            
+
             $plan_id=$request->planner_id;
-            $plans=Subscription::where('planner_id',$plan_id)->get();
+            $plans=Subscription::where('planner_id',4)->get();
             return $plans;
 
 
