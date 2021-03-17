@@ -16,6 +16,63 @@ use Validator;
 class ApiController extends Controller
 {
     //
+    public function set_loa_daily_planner(Request $request){
+
+        $validatedData=Validator::make($request->all(),[
+            "user_id"=>"required"
+        ]);
+
+        if($validatedData->fails())
+        {
+            return response()->json([
+                "message"=>"validation fail"
+            ]);
+        }
+        else{
+            $id=$request->user_id;
+            
+            $c_date=date("Y-m-d");
+            $info=Loa_daily_planner::where('user_id',$id)
+                                ->whereDate('created_at','=',$c_date)
+                                ->first();
+            if($info){
+                $user=Loa_daily_planner::where('user_id',$id)->first();
+                $user->morning_visualisation=$request->morning_visualisation;
+                $user->ninety_day_goal=$request->ninety_day_goal;
+                $user->thirty_day_goal=$request->thirty_day_goal;
+                $user->plan_for_today=$request->plan_for_today;
+                $user->steal_one_hour=$request->steal_one_hour;
+                $user->focus_160_minute=$request->focus_160_minute;
+                $user->time_for_gratification=$request->time_for_gratification;
+                $user->save();
+                return response()->json([
+                    "message"=>"data updated"
+                ]);
+            }
+            else{
+
+                $user=new Loa_daily_planner;
+                $user->user_id=$request->user_id;
+                $user->morning_visualisation=$request->morning_visualisation;
+                $user->ninety_day_goal=$request->ninety_day_goal;
+                $user->thirty_day_goal=$request->thirty_day_goal;
+                $user->plan_for_today=$request->plan_for_today;
+                $user->steal_one_hour=$request->steal_one_hour;
+                $user->focus_160_minute=$request->focus_160_minute;
+                $user->time_for_gratification=$request->time_for_gratification;
+                $user->save();
+                return response()->json([
+                    "message"=>"data inserted"
+                ]);
+            }
+            
+
+
+        }
+        
+
+    }
+
     public function get_plans(){
         $plans=Subscription::get();
         return $plans;
