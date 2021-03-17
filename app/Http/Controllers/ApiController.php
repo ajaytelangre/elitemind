@@ -11,6 +11,7 @@ use App\Models\Loa_plan_of_day;
 use App\Models\Loa_daily_planner;
 use App\Models\Loa_how_was_day;
 use App\Models\Subscription;
+use App\Models\Planner;
 use Validator;
 
 class ApiController extends Controller
@@ -241,6 +242,13 @@ class ApiController extends Controller
 
 
         }
+
+    }
+
+    public function planner_list(){
+
+        $plan=Planner::select('id','plan_name')->get();
+        return $plan;
 
     }
 
