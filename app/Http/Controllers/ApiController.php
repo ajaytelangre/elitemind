@@ -12,6 +12,7 @@ use App\Models\Loa_daily_planner;
 use App\Models\Loa_how_was_day;
 use App\Models\Subscription;
 use App\Models\Planner;
+use App\Models\User_subscription;
 use App\Models\Register;
 use Carbon\Carbon;
 use Validator;
@@ -277,6 +278,9 @@ class ApiController extends Controller
             "user_id"=>"required",
             "planner"=>"required",
             "subscription"=>"required",
+            "order_id"=>"required",
+            "payment_id"=>"required",
+            "amount"=>"required"
             
         ]);
 
@@ -294,6 +298,14 @@ class ApiController extends Controller
             $user->subscription_date=Carbon::now()->toDateTimeString();
             $user->status="active";
             $user->save();
+
+            $user_sub=new User_subscription;
+            $user_sub->user_id=$id;
+            $user_sub->subscriptions_id=$request->subscription;
+            $user_sub->amount=$request->amount;
+            $user_sub->order_id=$request->order_id;
+            $user_sub->payment_id=$request->payment_id;
+            $user_sub->save();
             return response()->json([
                 "message"=>"Your plan is activated"
             ]);
