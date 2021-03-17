@@ -12,6 +12,8 @@ use App\Models\Loa_daily_planner;
 use App\Models\Loa_how_was_day;
 use App\Models\Subscription;
 use App\Models\Planner;
+use App\Models\Register;
+use Carbon\Carbon;
 use Validator;
 
 class ApiController extends Controller
@@ -75,9 +77,26 @@ class ApiController extends Controller
     }
 
     public function get_plans(Request $request){
-        $plan_id=$request->planner_id;
-        $plans=Subscription::where('planner_id',$plan_id)->get();
-        return $plans;
+        
+
+        $validatedData=Validator::make($request->all(),[
+            "planner_id"=>"required"
+        ]);
+
+        if($validatedData->fails())
+        {
+            return response()->json([
+                "message"=>"validation fail"
+            ]);
+        }
+        else{
+            
+            $plan_id=$request->planner_id;
+            $plans=Subscription::where('planner_id',$plan_id)->get();
+            return $plans;
+
+
+        }
 
     }
 
@@ -250,6 +269,39 @@ class ApiController extends Controller
 
         $plan=Planner::select('id','plan_name')->get();
         return $plan;
+
+    }
+
+    public function set_subscription(Request $request){
+        
+        $validatedData=Validator::make($request->all(),[
+            "user_id"=>"required",
+            "planner"=>"required",
+            "subscription"=>"required",
+            
+        ]);
+
+        if($validatedData->fails())
+        {
+            return response()->json([
+                "message"=>"validation fail"
+            ]);
+        }
+        else{
+            $id=$request->user_id;
+            $user=Register::find($id);
+            $user->planner=$request->planner;
+            $user->subscription=$request->subscription;
+            $user->subscription_date=Carbon::now()->toDateTimeString();
+            $user->status="active";
+            $user->save();
+            return response()->json([
+                "message"=>"Your plan is activated"
+            ]);
+
+
+        }
+
 
     }
 
