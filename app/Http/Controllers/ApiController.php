@@ -234,7 +234,7 @@ class ApiController extends Controller
         }
         else{
             $id=$request->user_id;
-            $info=Loa_daily_planner::where('id',$id)->first();
+            $info=Loa_daily_planner::where('user_id',$id)->get();
             return $info;
 
 
