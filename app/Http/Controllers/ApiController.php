@@ -293,13 +293,6 @@ class ApiController extends Controller
         }
         else{
             $id=$request->user_id;
-            $user=Register::find($id);
-            $user->planner=$request->planner;
-            $user->subscription=$request->subscription;
-            $user->subscription_date=Carbon::now()->toDateTimeString();
-            $user->status="active";
-            $user->save();
-
             $user_sub=new User_subscription;
             $user_sub->user_id=$id;
             $user_sub->subscriptions_id=$request->subscription;
@@ -308,6 +301,17 @@ class ApiController extends Controller
             $user_sub->payment_id=$request->payment_id;
             $user_sub->payment_method=$request->payment_method;
             $user_sub->save();
+
+           
+            $user=Register::find($id);
+            $user->planner=$request->planner;
+            $user->subscription=$request->subscription;
+            $user->user_sub_id=$user_sub->id;
+            $user->subscription_date=Carbon::now()->toDateTimeString();
+            $user->status="active";
+            $user->save();
+
+          
             return response()->json([
                 "message"=>"Your plan is activated"
             ]);

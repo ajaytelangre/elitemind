@@ -7,6 +7,7 @@ use App\Models\Register;
 use Auth;
 use Validator;
 use Session;
+use DB;
 use Redirect;
 
 class AdminController extends Controller
@@ -120,7 +121,15 @@ class AdminController extends Controller
     }
 
     public function loaplanner(){
-        return view('loaplanner');
+        $data['users'] = DB::table('register')
+            ->leftJoin('user_subscriptions', 'register.user_sub_id', '=', 'user_subscriptions.id')
+            ->leftJoin('subscriptions', 'register.subscription', '=', 'subscriptions.id') 
+            ->where('register.planner','Law of attraction Planner')
+            ->select('register.id as user_id','register.*','user_subscriptions.id as user_subscriptions_id',
+            'user_subscriptions.*','subscriptions.id as subscriptions_id','subscriptions.*')
+            ->get();
+         
+        return view('loaplanner',$data);
     }
 
 
