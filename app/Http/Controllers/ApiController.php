@@ -234,12 +234,126 @@ class ApiController extends Controller
         }
         else{
             $id=$request->user_id;
-            $info=Loa_daily_planner::where('user_id',$id)->get();
-            return $info;
+            $register=Register::select('month_start','month_end')
+                                ->where('id',$id)
+                                ->first();
+
+            $month_start=$register->month_start;
+            $month_end=$register->month_end;
+          
+
+            $info=Loa_daily_planner::where('user_id',$id)
+                            ->whereBetween('created_at', [$month_start, $month_end])
+                            ->get();
+            $morning_visualization=[];
+            $ninety_day_goal=[];
+            $thirty_day_goal=[];
+            $plan_for_today=[];
+            $steal_one_hour=[];
+            $focus_160_minute=[];
+            $time_for_gratification=[];
+            foreach($info as $i)
+            {
+                array_push($morning_visualization,$i->morning_visualisation);
+                array_push($ninety_day_goal,$i->ninety_day_goal);
+                array_push($thirty_day_goal,$i->thirty_day_goal);
+                array_push($plan_for_today,$i->plan_for_today);
+                array_push($steal_one_hour,$i->steal_one_hour);
+                array_push($focus_160_minute,$i->focus_160_minute);
+                array_push($time_for_gratification,$i->time_for_gratification);
+            }
+            $m_vis_count = array_count_values($morning_visualization);
+            if(in_array('y',$morning_visualization)){
+                $m_vis_y_count=$m_vis_count['y'];
+            }
+            else{
+                $m_vis_y_count=0;
+            }
+            $m_vis_percent=round($this->percent($m_vis_y_count), 2);
+
+
+            $ninety_count = array_count_values($ninety_day_goal); 
+           if(in_array('y',$ninety_day_goal)){
+            $ninety_y_count=$ninety_count['y'];
+           }
+           else{
+            $ninety_y_count=0;
+           }
+            $ninety_percent=round($this->percent($ninety_y_count), 2);
+
+
+            $thirty_count = array_count_values($thirty_day_goal);
+            if(in_array('y',$thirty_day_goal)){
+                $thirty_y_count=$thirty_count['y'];
+            }
+            else{
+                $thirty_y_count=0;
+            }
+            $thirty_percent=round($this->percent($thirty_y_count), 2);
+
+            
+            $today_count = array_count_values($plan_for_today);
+            if(in_array('y',$plan_for_today)){
+                $today_y_count=$today_count['y'];
+            }
+            else{
+                $today_y_count=0;
+            }
+            $today_percent=round($this->percent($today_y_count), 2);
+
+
+
+            $steal_count = array_count_values($steal_one_hour);
+            if(in_array('y',$steal_one_hour)){
+                $steal_y_count=$steal_count['y'];
+            }
+            else{
+                $steal_y_count=0;
+            }
+            $steal_percent=round($this->percent($steal_y_count), 2);
+
+
+            
+            $focus_count = array_count_values($focus_160_minute);
+            if(in_array('y',$focus_160_minute)){
+                $focus_y_count=$focus_count['y'];
+            }
+            else{
+                $focus_y_count=0;
+            }
+            $focus_percent=round($this->percent($focus_y_count), 2);
+
+
+            $time_count = array_count_values($time_for_gratification);
+            if(in_array('y',$time_for_gratification)){
+                $time_y_count=$time_count['y'];
+            }
+            else{
+                $time_y_count=0;
+            }
+            $time_percent=round($this->percent($time_y_count), 2);
+
+
+
+            return response()->json([
+                "morning_visualization"=>$m_vis_percent,
+                "ninety_day_goal"=>$ninety_percent,
+                "thirty_day_goal"=>$thirty_percent,
+                "plan_for_today"=>$today_percent,
+                "steal_one_hour"=>$steal_percent,
+                "focus_160_minute"=>$focus_percent,
+                "time_for_gratification"=>$time_percent
+            ]);
+         
 
 
         }
 
+    }
+
+    public function percent($y){
+        $per=($y*100)/30;
+        return $per;
     }
 
 
