@@ -64,15 +64,17 @@
                 </tr>
             </thead>
             <tbody>
+
+              @foreach($users as $user)
                 <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>Otto</td>
+                <th scope="row">{{$user->username}}</th>
+                <td>{{$user->plan}}</td>
+                <td>{{$user->months}}</td>
+                <td>{{$user->amount}}</td>
+                <td>{{$user->payment_method}}</td>
                 <td><button type="button" class="btn btn-primary btn-sm btn-block"> View</button></td>
                 </tr>
-                
+              @endforeach
             </tbody>
             </table>
         </div>
