@@ -280,6 +280,7 @@ class ApiController extends Controller
             "subscription"=>"required",
             "order_id"=>"required",
             "payment_id"=>"required",
+            "payment_method"=>"required",
             "amount"=>"required"
             
         ]);
@@ -305,6 +306,7 @@ class ApiController extends Controller
             $user_sub->amount=$request->amount;
             $user_sub->order_id=$request->order_id;
             $user_sub->payment_id=$request->payment_id;
+            $user_sub->payment_method=$request->payment_method;
             $user_sub->save();
             return response()->json([
                 "message"=>"Your plan is activated"
