@@ -31,6 +31,7 @@ Route::post('/get_plans',[ApiController ::class,'get_plans']);
 Route::post('/set_loa_daily_planner',[ApiController ::class,'set_loa_daily_planner']);
 Route::post('/planner_list',[ApiController ::class,'planner_list']);
 Route::post('/set_subscription',[ApiController ::class,'set_subscription']);
-Route::post('/set_month_end',[SchedulerController ::class,'set_month_end']);
+
 Route::post('/test',[ApiController ::class,'test']);
 Route::post('/get_loa_gratification',[NewApiController ::class,'get_loa_gratification']);
+Route::post('/set_loa_gratification',[ApiController ::class,'set_loa_gratification']);
