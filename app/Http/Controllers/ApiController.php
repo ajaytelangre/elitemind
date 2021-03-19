@@ -14,17 +14,61 @@ use App\Models\Subscription;
 use App\Models\Planner;
 use App\Models\User_subscription;
 use App\Models\Register;
+use App\Models\Loa_gratification;
 use Carbon\Carbon;
 use Validator;
 
 class ApiController extends Controller
 {
     //
-    public function test(){
-        return "hello";
+    public function set_loa_gratification(Request $request){
+
+        $validatedData=Validator::make($request->all(),[
+            "gratification"=>"required",
+            "register_id"=>"required"
+        ]);
+
+        if($validatedData->fails())
+        {
+            return response()->json([
+                "message"=>"validation fail"
+            ]);
+        }
+        else{
+            $id=$request->register_id;
+            
+            $c_date=date("Y-m-d");
+            $info=Loa_gratification::where('register_id',$id)
+                                ->whereDate('created','=',$c_date)
+                                ->first();
+            if($info){
+                $user=Loa_gratification::where('register_id',$id)->first();
+                $user->gratification=$request->gratification;
+                $user->save();
+                return response()->json([
+                    "message"=>"data updated"
+                ]);
+            }
+            else{
+
+                $user=new Loa_gratification;
+                $user->register_id=$id;
+                $user->gratification=$request->gratification;
+                $user->created=Carbon::now()->toDateTimeString();
+               
+                $user->save();
+                return response()->json([
+                    "message"=>"data inserted"
+                ]);
+            }
+            
+
+
+        }
+        
+
     }
-
-
+  
     public function set_loa_daily_planner(Request $request){
 
         $validatedData=Validator::make($request->all(),[
