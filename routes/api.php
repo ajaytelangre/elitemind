@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\SchedulerController;
+use App\Http\Controllers\NewApiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -32,3 +33,4 @@ Route::post('/planner_list',[ApiController ::class,'planner_list']);
 Route::post('/set_subscription',[ApiController ::class,'set_subscription']);
 Route::post('/set_month_end',[SchedulerController ::class,'set_month_end']);
 Route::post('/test',[ApiController ::class,'test']);
+Route::post('/get_loa_gratification',[NewApiController ::class,'get_loa_gratification']);
