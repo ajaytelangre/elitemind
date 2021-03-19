@@ -210,7 +210,7 @@ class ApiController extends Controller
         }
         else{
             $id=$request->user_id;
-            $info=Loa_plan_of_day::where('id',$id)->first();
+            $info=Loa_plan_of_day::where('register_id',$id)->first();
             return $info;
 
 
@@ -422,6 +422,8 @@ class ApiController extends Controller
             $user->subscription=$request->subscription;
             $user->user_sub_id=$user_sub->id;
             $user->subscription_date=Carbon::now()->toDateTimeString();
+            $user->month_start=Carbon::now()->toDateTimeString();
+            $user->month_end=Carbon::now()->addDays(30);
             $user->status="active";
             $user->save();
 
