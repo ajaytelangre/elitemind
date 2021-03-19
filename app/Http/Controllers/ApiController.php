@@ -20,6 +20,11 @@ use Validator;
 class ApiController extends Controller
 {
     //
+    public function test(){
+        return "hello";
+    }
+
+
     public function set_loa_daily_planner(Request $request){
 
         $validatedData=Validator::make($request->all(),[

@@ -31,3 +31,4 @@ Route::post('/set_loa_daily_planner',[ApiController ::class,'set_loa_daily_plann
 Route::post('/planner_list',[ApiController ::class,'planner_list']);
 Route::post('/set_subscription',[ApiController ::class,'set_subscription']);
 Route::post('/set_month_end',[SchedulerController ::class,'set_month_end']);
+Route::post('/test',[ApiController ::class,'test']);
