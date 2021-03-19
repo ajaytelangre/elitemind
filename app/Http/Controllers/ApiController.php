@@ -422,6 +422,8 @@ class ApiController extends Controller
             $user->subscription=$request->subscription;
             $user->user_sub_id=$user_sub->id;
             $user->subscription_date=Carbon::now()->toDateTimeString();
+            $user->month_start=Carbon::now()->toDateTimeString();
+            $user->month_end=Carbon::now()->addDays(30);
             $user->status="active";
             $user->save();
 
