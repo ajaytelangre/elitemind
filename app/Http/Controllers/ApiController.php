@@ -31,7 +31,8 @@ class ApiController extends Controller
         if($validatedData->fails())
         {
             return response()->json([
-                "message"=>"validation fail"
+                "message"=>"validation fail",
+                "status"=>"false"
             ]);
         }
         else{
@@ -46,7 +47,8 @@ class ApiController extends Controller
                 $user->gratification=$request->gratification;
                 $user->save();
                 return response()->json([
-                    "message"=>"data updated"
+                    "message"=>"data updated",
+                    "status"=>"true"
                 ]);
             }
             else{
@@ -58,7 +60,8 @@ class ApiController extends Controller
                
                 $user->save();
                 return response()->json([
-                    "message"=>"data inserted"
+                    "message"=>"data inserted",
+                    "status"=>"true"
                 ]);
             }
             
@@ -213,7 +216,7 @@ class ApiController extends Controller
         }
         else{
             $id=$request->user_id;
-            $info=Loa_90_day_goals::where('id',$id)->first();
+            $info=Loa_90_day_goals::where('register_id',$id)->first();
             return $info;
 
 
@@ -236,7 +239,7 @@ class ApiController extends Controller
         }
         else{
             $id=$request->user_id;
-            $info=Loa_30_day_goals::where('id',$id)->first();
+            $info=Loa_30_day_goals::where('register_id',$id)->first();
             return $info;
 
 
