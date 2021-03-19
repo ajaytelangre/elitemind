@@ -216,7 +216,7 @@ class ApiController extends Controller
         }
         else{
             $id=$request->user_id;
-            $info=Loa_90_day_goals::where('id',$id)->first();
+            $info=Loa_90_day_goals::where('register_id',$id)->first();
             return $info;
 
 
@@ -239,7 +239,7 @@ class ApiController extends Controller
         }
         else{
             $id=$request->user_id;
-            $info=Loa_30_day_goals::where('id',$id)->first();
+            $info=Loa_30_day_goals::where('register_id',$id)->first();
             return $info;
 
 
