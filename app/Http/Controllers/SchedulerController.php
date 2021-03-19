@@ -15,11 +15,17 @@ class SchedulerController extends Controller
         $current_date=Carbon::now()->format('Y-m-d');
 
         foreach($register as $r){
+            
             $month_end=substr($r->month_end,0,10);
             
             if($current_date==$month_end){
-                echo "same";
+                $users=Register::find($r->id);
+                $users->month_start=$r->month_end;
+                $users->month_end=Carbon::now()->addDays(30);
+                $users->save();
+                 
             }
+         
         }
        
     }
