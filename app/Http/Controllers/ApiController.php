@@ -210,7 +210,7 @@ class ApiController extends Controller
         }
         else{
             $id=$request->user_id;
-            $info=Loa_plan_of_day::where('id',$id)->first();
+            $info=Loa_plan_of_day::where('register_id',$id)->first();
             return $info;
 
 
