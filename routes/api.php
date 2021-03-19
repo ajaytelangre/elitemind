@@ -34,3 +34,4 @@ Route::post('/set_subscription',[ApiController ::class,'set_subscription']);
 Route::post('/set_month_end',[SchedulerController ::class,'set_month_end']);
 Route::post('/test',[ApiController ::class,'test']);
 Route::post('/get_loa_gratification',[NewApiController ::class,'get_loa_gratification']);
+Route::post('/get_loa_unique_things',[NewApiController ::class,'get_loa_unique_things']);
