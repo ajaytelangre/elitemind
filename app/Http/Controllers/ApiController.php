@@ -15,12 +15,187 @@ use App\Models\Planner;
 use App\Models\User_subscription;
 use App\Models\Register;
 use App\Models\Loa_gratification;
+use App\Models\My_mood;
+use App\Models\Loa_lesson_of_day;
+use App\Models\Loa_unique_things;
 use Carbon\Carbon;
 use Validator;
 
 class ApiController extends Controller
 {
     //
+    public function insert_unique_things(Request $request){
+
+        $validatedData=Validator::make($request->all(),[
+            "register_id"=>"required",
+
+        ]);
+
+        if($validatedData->fails())
+        {
+            return response()->json([
+                "message"=>"validation fail",
+                "status"=>"false"
+            ]);
+        }
+        else{
+            $id=$request->register_id;
+            $c_date=date("Y-m-d");
+            $info=Loa_unique_things::where('register_id',$id)
+                                ->whereDate('created','=',$c_date)
+                                ->first();
+            if($info){
+                $uniqueThings=Loa_unique_things::where('register_id',$id)->first();
+                $uniqueThings->unique_things_1 = $request->unique_things_1;
+                $uniqueThings->unique_things_2 = $request->unique_things_2;
+                $uniqueThings->unique_things_3 = $request->unique_things_3;
+                $uniqueThings->unique_things_4 = $request->unique_things_4;
+                $uniqueThings->unique_things_5 = $request->unique_things_5;
+                $uniqueThings->save();
+                return response()->json([
+                    "message" => "Unique 5 Things Updated!",
+                    "register_id" => $uniqueThings->register_id,
+                    "Unique Things" => $uniqueThings->unique_things_1,
+                    "status"=>"true"
+                ]);
+            }
+            else{
+                $uniqueThings=new Loa_unique_things;
+                $uniqueThings->register_id=$request->register_id;
+                $uniqueThings->unique_things_1 = $request->unique_things_1;
+                $uniqueThings->unique_things_2 = $request->unique_things_2;
+                $uniqueThings->unique_things_3 = $request->unique_things_3;
+                $uniqueThings->unique_things_4 = $request->unique_things_4;
+                $uniqueThings->unique_things_5 = $request->unique_things_5;
+                $uniqueThings->created=Carbon::now()->toDateTimeString();
+                $uniqueThings->save();
+                return response()->json([
+                    "message" => "Unique 5 Things Added!",
+                    "register_id" => $uniqueThings->register_id,
+                    "Unique Things" => $uniqueThings->unique_things_1,
+                    "status"=>"true"
+                ]);
+            }
+
+        }
+        
+
+    }
+
+
+    public function insert_loa_lessons_of_day(Request $request){
+
+        $validatedData=Validator::make($request->all(),[
+            "register_id"=>"required",
+            "lesson_of_day"=>"required"
+        ]);
+
+        if($validatedData->fails())
+        {
+            return response()->json([
+                "message"=>"validation fail",
+                "status"=>"false"
+            ]);
+        }
+        else{
+            $id=$request->register_id;
+            $c_date=date("Y-m-d");
+            $info=Loa_lesson_of_day::where('register_id',$id)
+                                ->whereDate('created','=',$c_date)
+                                ->first();
+            if($info){
+                $user=Loa_lesson_of_day::where('register_id',$id)->first();
+                $user->lesson_of_day=$request->lesson_of_day;
+                $user->save();
+                return response()->json([
+                    "message"=>"data updated",
+                    "status"=>"true"
+                ]);
+            }
+            else{
+                $user=new Loa_lesson_of_day;
+                $user->register_id=$request->register_id;
+                $user->lesson_of_day=$request->lesson_of_day;
+                $user->created=Carbon::now()->toDateTimeString();
+                $user->save();
+                return response()->json([
+                    "message"=>"data inserted",
+                    "status"=>"true"
+                ]);
+            }
+
+        }
+        
+
+    }
+
+
+
+
+    public function set_mood(Request $request){
+
+        $validatedData=Validator::make($request->all(),[
+            "user_id"=>"required"
+        ]);
+
+        if($validatedData->fails())
+        {
+            return response()->json([
+                "message"=>"validation fail"
+            ]);
+        }
+        else{
+            $id=$request->user_id;
+            $c_date=date("Y-m-d");
+            $info=My_mood::where('user_id',$id)
+                                ->whereDate('created_at','=',$c_date)
+                                ->first();
+            if($info){
+                $user=My_mood::where('user_id',$id)->first();
+                $user->angry=$request->angry;
+                $user->anxious=$request->anxious;
+                $user->energetic=$request->energetic;
+                $user->calm=$request->calm;
+                $user->depressed=$request->depressed;
+                $user->active=$request->active;
+                $user->happy=$request->happy;
+                $user->exhausted=$request->exhausted;
+                $user->stressed=$request->stressed;
+                $user->normal=$request->normal;
+                $user->save();
+                return response()->json([
+                    "message"=>"data updated"
+                ]);
+            }
+            else{
+                $user=new My_mood;
+                $user->user_id=$request->user_id;
+                $user->angry=$request->angry;
+                $user->anxious=$request->anxious;
+                $user->energetic=$request->energetic;
+                $user->calm=$request->calm;
+                $user->depressed=$request->depressed;
+                $user->active=$request->active;
+                $user->happy=$request->happy;
+                $user->exhausted=$request->exhausted;
+                $user->stressed=$request->stressed;
+                $user->normal=$request->normal;
+                $user->save();
+                return response()->json([
+                    "message"=>"data inserted"
+                ]);
+            }
+            
+
+
+        }
+        
+
+    }
+
+
+
+
     public function set_loa_gratification(Request $request){
 
         $validatedData=Validator::make($request->all(),[
