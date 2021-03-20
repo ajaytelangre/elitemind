@@ -38,3 +38,4 @@ Route::post('/get_loa_unique_things',[NewApiController ::class,'get_loa_unique_t
 Route::post('/set_loa_gratification',[ApiController ::class,'set_loa_gratification']);
 Route::post('/set_mood',[ApiController ::class,'set_mood']);
 
+Route::post('/get_loa_lesson_of_day',[NewApiController ::class,'get_loa_lesson_of_day']);
