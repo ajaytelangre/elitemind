@@ -38,3 +38,8 @@ Route::post('/get_loa_unique_things',[NewApiController ::class,'get_loa_unique_t
 Route::post('/set_loa_gratification',[ApiController ::class,'set_loa_gratification']);
 
 Route::post('/get_loa_unproductive_task',[NewApiController ::class,'get_loa_unproductive_task']);
+Route::post('/set_mood',[ApiController ::class,'set_mood']);
+
+Route::post('/get_loa_lesson_of_day',[NewApiController ::class,'get_loa_lesson_of_day']);
+Route::post('/insert_loa_lessons_of_day',[ApiController ::class,'insert_loa_lessons_of_day']);
+Route::post('/insert_unique_things',[ApiController ::class,'insert_unique_things']);
