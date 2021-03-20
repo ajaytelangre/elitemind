@@ -7,6 +7,7 @@ use App\Models\Register;
 use App\Models\Loa_gratification;
 use App\Models\Loa_unique_things;
 use App\Models\Loa_lesson_of_day;
+use App\Models\Loa_unproductive_task;
 use Carbon\Carbon;
 use Validator;
 
@@ -118,5 +119,41 @@ class NewApiController extends Controller
         }
        
     }
+
+
+    public function get_loa_unproductive_task(Request $request){
+        
+
+        $validatedData=Validator::make($request->all(),[
+            "register_id"=>"required"
+        ]);
+
+        if($validatedData->fails())
+        {
+            return response()->json([
+                "message"=>"validation fail"
+            ]);
+        }
+        else{
+            $id=$request->register_id;
+
+            $register=Register::select('month_start','month_end')
+            ->where('id',$id)
+            ->first();
+
+            $month_start=$register->month_start;
+            $month_end=$register->month_end;
+          
+
+            $unproductivetask= Loa_unproductive_task::where('register_id',$id)
+                                                ->whereBetween('created', [$month_start, $month_end]) 
+                                                ->get();
+            return $unproductivetask;
+
+
+        }
+       
+    }
+
 
 }
