@@ -18,12 +18,61 @@ use App\Models\Loa_gratification;
 use App\Models\My_mood;
 use App\Models\Loa_lesson_of_day;
 use App\Models\Loa_unique_things;
+use App\Models\Loa_unproductive_task;
 use Carbon\Carbon;
 use Validator;
 
 class ApiController extends Controller
 {
     //
+    public function insert_loa_unproductive_task(Request $request){
+
+        $validatedData=Validator::make($request->all(),[
+            "register_id"=>"required",
+            "unproductive_task"=>"required"
+
+        ]);
+
+        if($validatedData->fails())
+        {
+            return response()->json([
+                "message"=>"validation fail",
+                "status"=>"false"
+            ]);
+        }
+        else{
+            $id=$request->register_id;
+            $c_date=date("Y-m-d");
+            $info=Loa_unproductive_task::where('register_id',$id)
+                                ->whereDate('created','=',$c_date)
+                                ->first();
+            if($info){
+                $user=Loa_unproductive_task::where('register_id',$id)->first();
+            }
+            else{
+                $user=new Loa_unproductive_task;
+                $user->register_id=$request->register_id;
+               
+            }
+
+            $user->unproductive_task =$request->unproductive_task;
+            $user->created =Carbon::now()->toDateTimeString();
+            $user->save();
+
+            return response()->json([
+                "status" => true,
+                "message" => "unproductive_task  Added!",
+                "register_id" => $user->register_id,
+                "Unproductive task" => $user->unproductive_task
+            ]);
+
+        }
+        
+        
+
+    }
+
+
     public function insert_loa_how_was_day(Request $request){
 
         $validatedData=Validator::make($request->all(),[
