@@ -40,3 +40,4 @@ Route::post('/set_mood',[ApiController ::class,'set_mood']);
 
 Route::post('/get_loa_lesson_of_day',[NewApiController ::class,'get_loa_lesson_of_day']);
 Route::post('/insert_loa_lessons_of_day',[ApiController ::class,'insert_loa_lessons_of_day']);
+Route::post('/insert_unique_things',[ApiController ::class,'insert_unique_things']);

@@ -17,12 +17,72 @@ use App\Models\Register;
 use App\Models\Loa_gratification;
 use App\Models\My_mood;
 use App\Models\Loa_lesson_of_day;
+use App\Models\Loa_unique_things;
 use Carbon\Carbon;
 use Validator;
 
 class ApiController extends Controller
 {
     //
+    public function insert_unique_things(Request $request){
+
+        $validatedData=Validator::make($request->all(),[
+            "register_id"=>"required",
+
+        ]);
+
+        if($validatedData->fails())
+        {
+            return response()->json([
+                "message"=>"validation fail",
+                "status"=>"false"
+            ]);
+        }
+        else{
+            $id=$request->register_id;
+            $c_date=date("Y-m-d");
+            $info=Loa_unique_things::where('register_id',$id)
+                                ->whereDate('created','=',$c_date)
+                                ->first();
+            if($info){
+                $uniqueThings=Loa_unique_things::where('register_id',$id)->first();
+                $uniqueThings->unique_things_1 = $request->unique_things_1;
+                $uniqueThings->unique_things_2 = $request->unique_things_2;
+                $uniqueThings->unique_things_3 = $request->unique_things_3;
+                $uniqueThings->unique_things_4 = $request->unique_things_4;
+                $uniqueThings->unique_things_5 = $request->unique_things_5;
+                $uniqueThings->save();
+                return response()->json([
+                    "message" => "Unique 5 Things Updated!",
+                    "register_id" => $uniqueThings->register_id,
+                    "Unique Things" => $uniqueThings->unique_things_1,
+                    "status"=>"true"
+                ]);
+            }
+            else{
+                $uniqueThings=new Loa_unique_things;
+                $uniqueThings->register_id=$request->register_id;
+                $uniqueThings->unique_things_1 = $request->unique_things_1;
+                $uniqueThings->unique_things_2 = $request->unique_things_2;
+                $uniqueThings->unique_things_3 = $request->unique_things_3;
+                $uniqueThings->unique_things_4 = $request->unique_things_4;
+                $uniqueThings->unique_things_5 = $request->unique_things_5;
+                $uniqueThings->created=Carbon::now()->toDateTimeString();
+                $uniqueThings->save();
+                return response()->json([
+                    "message" => "Unique 5 Things Added!",
+                    "register_id" => $uniqueThings->register_id,
+                    "Unique Things" => $uniqueThings->unique_things_1,
+                    "status"=>"true"
+                ]);
+            }
+
+        }
+        
+
+    }
+
+
     public function insert_loa_lessons_of_day(Request $request){
 
         $validatedData=Validator::make($request->all(),[
@@ -63,8 +123,6 @@ class ApiController extends Controller
                     "status"=>"true"
                 ]);
             }
-            
-
 
         }
         
