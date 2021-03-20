@@ -36,3 +36,5 @@ Route::post('/test',[ApiController ::class,'test']);
 Route::post('/get_loa_gratification',[NewApiController ::class,'get_loa_gratification']);
 Route::post('/get_loa_unique_things',[NewApiController ::class,'get_loa_unique_things']);
 Route::post('/set_loa_gratification',[ApiController ::class,'set_loa_gratification']);
+Route::post('/set_mood',[ApiController ::class,'set_mood']);
+

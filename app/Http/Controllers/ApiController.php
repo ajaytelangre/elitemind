@@ -15,12 +15,77 @@ use App\Models\Planner;
 use App\Models\User_subscription;
 use App\Models\Register;
 use App\Models\Loa_gratification;
+use App\Models\My_mood;
 use Carbon\Carbon;
 use Validator;
 
 class ApiController extends Controller
 {
     //
+    public function set_mood(Request $request){
+
+        $validatedData=Validator::make($request->all(),[
+            "user_id"=>"required"
+        ]);
+
+        if($validatedData->fails())
+        {
+            return response()->json([
+                "message"=>"validation fail"
+            ]);
+        }
+        else{
+            $id=$request->user_id;
+            $c_date=date("Y-m-d");
+            $info=My_mood::where('user_id',$id)
+                                ->whereDate('created_at','=',$c_date)
+                                ->first();
+            if($info){
+                $user=My_mood::where('user_id',$id)->first();
+                $user->angry=$request->angry;
+                $user->anxious=$request->anxious;
+                $user->energetic=$request->energetic;
+                $user->calm=$request->calm;
+                $user->depressed=$request->depressed;
+                $user->active=$request->active;
+                $user->happy=$request->happy;
+                $user->exhausted=$request->exhausted;
+                $user->stressed=$request->stressed;
+                $user->normal=$request->normal;
+                $user->save();
+                return response()->json([
+                    "message"=>"data updated"
+                ]);
+            }
+            else{
+                $user=new My_mood;
+                $user->user_id=$request->user_id;
+                $user->angry=$request->angry;
+                $user->anxious=$request->anxious;
+                $user->energetic=$request->energetic;
+                $user->calm=$request->calm;
+                $user->depressed=$request->depressed;
+                $user->active=$request->active;
+                $user->happy=$request->happy;
+                $user->exhausted=$request->exhausted;
+                $user->stressed=$request->stressed;
+                $user->normal=$request->normal;
+                $user->save();
+                return response()->json([
+                    "message"=>"data inserted"
+                ]);
+            }
+            
+
+
+        }
+        
+
+    }
+
+
+
+
     public function set_loa_gratification(Request $request){
 
         $validatedData=Validator::make($request->all(),[
