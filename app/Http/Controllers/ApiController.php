@@ -16,12 +16,61 @@ use App\Models\User_subscription;
 use App\Models\Register;
 use App\Models\Loa_gratification;
 use App\Models\My_mood;
+use App\Models\Loa_lesson_of_day;
 use Carbon\Carbon;
 use Validator;
 
 class ApiController extends Controller
 {
     //
+    public function insert_loa_lessons_of_day(Request $request){
+
+        $validatedData=Validator::make($request->all(),[
+            "register_id"=>"required",
+            "lesson_of_day"=>"required"
+        ]);
+
+        if($validatedData->fails())
+        {
+            return response()->json([
+                "message"=>"validation fail"
+            ]);
+        }
+        else{
+            $id=$request->register_id;
+            $c_date=date("Y-m-d");
+            $info=Loa_lesson_of_day::where('register_id',$id)
+                                ->whereDate('created','=',$c_date)
+                                ->first();
+            if($info){
+                $user=Loa_lesson_of_day::where('register_id',$id)->first();
+                $user->lesson_of_day=$request->lesson_of_day;
+                $user->save();
+                return response()->json([
+                    "message"=>"data updated"
+                ]);
+            }
+            else{
+                $user=new Loa_lesson_of_day;
+                $user->register_id=$request->register_id;
+                $user->lesson_of_day=$request->lesson_of_day;
+                $user->created=Carbon::now()->toDateTimeString();
+                $user->save();
+                return response()->json([
+                    "message"=>"data inserted"
+                ]);
+            }
+            
+
+
+        }
+        
+
+    }
+
+
+
+
     public function set_mood(Request $request){
 
         $validatedData=Validator::make($request->all(),[
