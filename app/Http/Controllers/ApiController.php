@@ -33,7 +33,8 @@ class ApiController extends Controller
         if($validatedData->fails())
         {
             return response()->json([
-                "message"=>"validation fail"
+                "message"=>"validation fail",
+                "status"=>"false"
             ]);
         }
         else{
@@ -47,7 +48,8 @@ class ApiController extends Controller
                 $user->lesson_of_day=$request->lesson_of_day;
                 $user->save();
                 return response()->json([
-                    "message"=>"data updated"
+                    "message"=>"data updated",
+                    "status"=>"true"
                 ]);
             }
             else{
@@ -57,7 +59,8 @@ class ApiController extends Controller
                 $user->created=Carbon::now()->toDateTimeString();
                 $user->save();
                 return response()->json([
-                    "message"=>"data inserted"
+                    "message"=>"data inserted",
+                    "status"=>"true"
                 ]);
             }
             
