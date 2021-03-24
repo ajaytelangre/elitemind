@@ -45,3 +45,4 @@ Route::post('/insert_loa_lessons_of_day',[ApiController ::class,'insert_loa_less
 Route::post('/insert_unique_things',[ApiController ::class,'insert_unique_things']);
 Route::post('/insert_loa_how_was_day',[ApiController ::class,'insert_loa_how_was_day']);
 Route::post('/insert_loa_unproductive_task',[ApiController ::class,'insert_loa_unproductive_task']);
+
