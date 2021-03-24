@@ -547,10 +547,11 @@ class ApiController extends Controller
 
 
     
-    public function get_loa_daily_planner(Request $request){
+    public function get_30day_mood(Request $request){
 
         $validatedData=Validator::make($request->all(),[
-            "user_id"=>"required"
+            "user_id"=>"required",
+            "days"=>"required"
         ]);
 
         if($validatedData->fails())
@@ -561,13 +562,203 @@ class ApiController extends Controller
         }
         else{
             $id=$request->user_id;
-            $register=Register::select('month_start','month_end')
-                                ->where('id',$id)
-                                ->first();
+            $days=$request->days;
+            
+                $register=Register::select('month_start','month_end')
+                                    ->where('id',$id)
+                                    ->first();
 
-            $month_start=$register->month_start;
-            $month_end=$register->month_end;
-          
+                $month_start=$register->month_start;
+                $month_end=$register->month_end;
+            
+         
+
+            $info=My_mood::where('user_id',$id)
+                            ->whereBetween('created_at', [$month_start, $month_end])
+                            ->get();
+            $angry=[];
+            $anxious=[];
+            $energetic=[];
+            $calm=[];
+            $depressed=[];
+            $active=[];
+            $happy=[];
+            $exhausted=[];
+            $stressed=[];
+            $normal=[];
+            foreach($info as $i)
+            {
+                array_push($angry,$i->angry);
+                array_push($anxious,$i->anxious);
+                array_push($energetic,$i->energetic);
+                array_push($calm,$i->calm);
+                array_push($depressed,$i->depressed);
+                array_push($active,$i->active);
+                array_push($happy,$i->happy);
+                array_push($exhausted,$i->exhausted);
+                array_push($stressed,$i->stressed);
+                array_push($normal,$i->normal);
+            }
+            $angry_count = array_count_values($angry);
+            if(in_array('y',$angry)){
+                $angry_y_count=$angry_count['y'];
+            }
+            else{
+                $angry_y_count=0;
+            }
+            $angry_percent=round($this->percent($angry_y_count,$days), 2);
+
+
+            $anxious_count = array_count_values($anxious); 
+           if(in_array('y',$anxious)){
+            $anxious_y_count=$anxious_count['y'];
+           }
+           else{
+            $anxious_y_count=0;
+           }
+            $anxious_percent=round($this->percent($anxious_y_count,$days), 2);
+
+
+            $energetic_count = array_count_values($energetic);
+            if(in_array('y',$energetic)){
+                $energetic_y_count=$energetic_count['y'];
+            }
+            else{
+                $energetic_y_count=0;
+            }
+            $energetic_percent=round($this->percent($energetic_y_count,$days), 2);
+
+            
+            $calm_count = array_count_values($calm);
+            if(in_array('y',$calm)){
+                $calm_y_count=$calm_count['y'];
+            }
+            else{
+                $calm_y_count=0;
+            }
+            $calm_percent=round($this->percent($calm_y_count,$days), 2);
+
+
+
+            $depressed_count = array_count_values($depressed);
+            if(in_array('y',$depressed)){
+                $depressed_y_count=$depressed_count['y'];
+            }
+            else{
+                $depressed_y_count=0;
+            }
+            $depressed_percent=round($this->percent($depressed_y_count,$days), 2);
+
+
+            
+            $active_count = array_count_values($active);
+            if(in_array('y',$active)){
+                $active_y_count=$active_count['y'];
+            }
+            else{
+                $active_y_count=0;
+            }
+            $active_percent=round($this->percent($active_y_count,$days), 2);
+
+
+            $happy_count = array_count_values($happy);
+            if(in_array('y',$happy)){
+                $happy_y_count=$happy_count['y'];
+            }
+            else{
+                $happy_y_count=0;
+            }
+            $happy_percent=round($this->percent($happy_y_count,$days), 2);
+
+
+
+            
+            $exhausted_count = array_count_values($exhausted);
+            if(in_array('y',$happy)){
+                $exhausted_y_count=$exhausted_count['y'];
+            }
+            else{
+                $exhausted_y_count=0;
+            }
+            $exhausted_percent=round($this->percent($exhausted_y_count,$days), 2);
+
+
+            
+            $stressed_count = array_count_values($stressed);
+            if(in_array('y',$stressed)){
+                $stressed_y_count=$stressed_count['y'];
+            }
+            else{
+                $stressed_y_count=0;
+            }
+            $stressed_percent=round($this->percent($stressed_y_count,$days), 2);
+
+
+
+            
+            $normal_count = array_count_values($normal);
+            if(in_array('y',$normal)){
+                $normal_y_count=$normal_count['y'];
+            }
+            else{
+                $normal_y_count=0;
+            }
+            $normal_percent=round($this->percent($normal_y_count,$days), 2);
+
+
+
+            return response()->json([
+                "angry"=>$angry_percent,
+                "anxious"=>$anxious_percent,
+                "energetic"=>$energetic_percent,
+                "calm"=>$calm_percent,
+                "depressed"=>$depressed_percent,
+                "active"=>$active_percent,
+                "happy"=>$happy_percent,
+                "exhausted"=>$exhausted_percent,
+                "stressed"=>$stressed_percent,
+                "normal"=>$normal_percent
+            ]);
+         
+
+
+        }
+
+    }
+
+    
+    public function get_loa_daily_planner(Request $request){
+
+        $validatedData=Validator::make($request->all(),[
+            "user_id"=>"required",
+            "days"=>"required"
+        ]);
+
+        if($validatedData->fails())
+        {
+            return response()->json([
+                "message"=>"validation fail"
+            ]);
+        }
+        else{
+            $id=$request->user_id;
+            $days=$request->days;
+            if($days==30){
+                $register=Register::select('month_start','month_end')
+                                    ->where('id',$id)
+                                    ->first();
+
+                $month_start=$register->month_start;
+                $month_end=$register->month_end;
+            }
+            elseif($days==7){
+                $register=Register::select('days_start','days_end')
+                ->where('id',$id)
+                ->first();
+
+                    $month_start=$register->days_start;
+                    $month_end=$register->days_end;
+            }
 
             $info=Loa_daily_planner::where('user_id',$id)
                             ->whereBetween('created_at', [$month_start, $month_end])
@@ -596,7 +787,7 @@ class ApiController extends Controller
             else{
                 $m_vis_y_count=0;
             }
-            $m_vis_percent=round($this->percent($m_vis_y_count), 2);
+            $m_vis_percent=round($this->percent($m_vis_y_count,$days), 2);
 
 
             $ninety_count = array_count_values($ninety_day_goal); 
@@ -606,7 +797,7 @@ class ApiController extends Controller
            else{
             $ninety_y_count=0;
            }
-            $ninety_percent=round($this->percent($ninety_y_count), 2);
+            $ninety_percent=round($this->percent($ninety_y_count,$days), 2);
 
 
             $thirty_count = array_count_values($thirty_day_goal);
@@ -616,7 +807,7 @@ class ApiController extends Controller
             else{
                 $thirty_y_count=0;
             }
-            $thirty_percent=round($this->percent($thirty_y_count), 2);
+            $thirty_percent=round($this->percent($thirty_y_count,$days), 2);
 
             
             $today_count = array_count_values($plan_for_today);
@@ -626,7 +817,7 @@ class ApiController extends Controller
             else{
                 $today_y_count=0;
             }
-            $today_percent=round($this->percent($today_y_count), 2);
+            $today_percent=round($this->percent($today_y_count,$days), 2);
 
 
 
@@ -637,7 +828,7 @@ class ApiController extends Controller
             else{
                 $steal_y_count=0;
             }
-            $steal_percent=round($this->percent($steal_y_count), 2);
+            $steal_percent=round($this->percent($steal_y_count,$days), 2);
 
 
             
@@ -648,7 +839,7 @@ class ApiController extends Controller
             else{
                 $focus_y_count=0;
             }
-            $focus_percent=round($this->percent($focus_y_count), 2);
+            $focus_percent=round($this->percent($focus_y_count,$days), 2);
 
 
             $time_count = array_count_values($time_for_gratification);
@@ -658,7 +849,7 @@ class ApiController extends Controller
             else{
                 $time_y_count=0;
             }
-            $time_percent=round($this->percent($time_y_count), 2);
+            $time_percent=round($this->percent($time_y_count,$days), 2);
 
 
 
@@ -678,8 +869,8 @@ class ApiController extends Controller
 
     }
 
-    public function percent($y){
-        $per=($y*100)/30;
+    public function percent($y,$d){
+        $per=($y*100)/(int)$d;
         return $per;
     }
 

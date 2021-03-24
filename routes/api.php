@@ -45,6 +45,7 @@ Route::post('/insert_loa_lessons_of_day',[ApiController ::class,'insert_loa_less
 Route::post('/insert_unique_things',[ApiController ::class,'insert_unique_things']);
 Route::post('/insert_loa_how_was_day',[ApiController ::class,'insert_loa_how_was_day']);
 Route::post('/insert_loa_unproductive_task',[ApiController ::class,'insert_loa_unproductive_task']);
+Route::post('/get_30day_mood',[ApiController ::class,'get_30day_mood']);
 
 Route::post('/insert_elite_petals',[NewApiController ::class,'insert_elite_petals']);
 
