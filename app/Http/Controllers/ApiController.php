@@ -18,12 +18,112 @@ use App\Models\Loa_gratification;
 use App\Models\My_mood;
 use App\Models\Loa_lesson_of_day;
 use App\Models\Loa_unique_things;
+use App\Models\Loa_unproductive_task;
 use Carbon\Carbon;
 use Validator;
 
 class ApiController extends Controller
 {
     //
+    public function insert_loa_unproductive_task(Request $request){
+
+        $validatedData=Validator::make($request->all(),[
+            "register_id"=>"required",
+            "unproductive_task"=>"required"
+
+        ]);
+
+        if($validatedData->fails())
+        {
+            return response()->json([
+                "message"=>"validation fail",
+                "status"=>"false"
+            ]);
+        }
+        else{
+            $id=$request->register_id;
+            $c_date=date("Y-m-d");
+            $info=Loa_unproductive_task::where('register_id',$id)
+                                ->whereDate('created','=',$c_date)
+                                ->first();
+            if($info){
+                $user=Loa_unproductive_task::where('register_id',$id)->first();
+            }
+            else{
+                $user=new Loa_unproductive_task;
+                $user->register_id=$request->register_id;
+               
+            }
+
+            $user->unproductive_task =$request->unproductive_task;
+            $user->created =Carbon::now()->toDateTimeString();
+            $user->save();
+
+            return response()->json([
+                "status" => true,
+                "message" => "unproductive_task  Added!",
+                "register_id" => $user->register_id,
+                "Unproductive task" => $user->unproductive_task
+            ]);
+
+        }
+        
+        
+
+    }
+
+
+    public function insert_loa_how_was_day(Request $request){
+
+        $validatedData=Validator::make($request->all(),[
+            "register_id"=>"required",
+            "loa_how_was_day"=>"required"
+
+        ]);
+
+        if($validatedData->fails())
+        {
+            return response()->json([
+                "message"=>"validation fail",
+                "status"=>"false"
+            ]);
+        }
+        else{
+            $id=$request->register_id;
+            $c_date=date("Y-m-d");
+            $info=Loa_how_was_day::where('register_id',$id)
+                                ->whereDate('created','=',$c_date)
+                                ->first();
+            if($info){
+                $loa_how_was_day_obj=Loa_how_was_day::where('register_id',$id)->first();
+            }
+            else{
+                $loa_how_was_day_obj=new Loa_how_was_day;
+                $loa_how_was_day_obj->register_id=$request->register_id;
+               
+            }
+
+            $loa_how_was_day_obj->loa_how_was_day =$request->loa_how_was_day;
+            $loa_how_was_day_obj->created =Carbon::now()->toDateTimeString();
+            $loa_how_was_day_obj->save();
+
+            return response()->json([
+                "status" => true,
+                "message" => "loa_how_was_day Statement Added!",
+                "register_id" => $loa_how_was_day_obj->register_id,
+                "loa_how_was_day Statement" => $loa_how_was_day_obj->loa_how_was_day
+            ]);
+
+        }
+        
+        
+
+    }
+
+
+
+
+
     public function insert_unique_things(Request $request){
 
         $validatedData=Validator::make($request->all(),[
