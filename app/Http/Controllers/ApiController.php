@@ -547,6 +547,186 @@ class ApiController extends Controller
 
 
     
+    public function get_30day_mood(Request $request){
+
+        $validatedData=Validator::make($request->all(),[
+            "user_id"=>"required",
+            "days"=>"required"
+        ]);
+
+        if($validatedData->fails())
+        {
+            return response()->json([
+                "message"=>"validation fail"
+            ]);
+        }
+        else{
+            $id=$request->user_id;
+            $days=$request->days;
+            
+                $register=Register::select('month_start','month_end')
+                                    ->where('id',$id)
+                                    ->first();
+
+                $month_start=$register->month_start;
+                $month_end=$register->month_end;
+            
+         
+
+            $info=My_mood::where('user_id',$id)
+                            ->whereBetween('created_at', [$month_start, $month_end])
+                            ->get();
+            $angry=[];
+            $anxious=[];
+            $energetic=[];
+            $calm=[];
+            $depressed=[];
+            $active=[];
+            $happy=[];
+            $exhausted=[];
+            $stressed=[];
+            $normal=[];
+            foreach($info as $i)
+            {
+                array_push($angry,$i->angry);
+                array_push($anxious,$i->anxious);
+                array_push($energetic,$i->energetic);
+                array_push($calm,$i->calm);
+                array_push($depressed,$i->depressed);
+                array_push($active,$i->active);
+                array_push($happy,$i->happy);
+                array_push($exhausted,$i->exhausted);
+                array_push($stressed,$i->stressed);
+                array_push($normal,$i->normal);
+            }
+            $angry_count = array_count_values($angry);
+            if(in_array('y',$angry)){
+                $angry_y_count=$angry_count['y'];
+            }
+            else{
+                $angry_y_count=0;
+            }
+            $angry_percent=round($this->percent($angry_y_count,$days), 2);
+
+
+            $anxious_count = array_count_values($anxious); 
+           if(in_array('y',$anxious)){
+            $anxious_y_count=$anxious_count['y'];
+           }
+           else{
+            $anxious_y_count=0;
+           }
+            $anxious_percent=round($this->percent($anxious_y_count,$days), 2);
+
+
+            $energetic_count = array_count_values($energetic);
+            if(in_array('y',$energetic)){
+                $energetic_y_count=$energetic_count['y'];
+            }
+            else{
+                $energetic_y_count=0;
+            }
+            $energetic_percent=round($this->percent($energetic_y_count,$days), 2);
+
+            
+            $calm_count = array_count_values($calm);
+            if(in_array('y',$calm)){
+                $calm_y_count=$calm_count['y'];
+            }
+            else{
+                $calm_y_count=0;
+            }
+            $calm_percent=round($this->percent($calm_y_count,$days), 2);
+
+
+
+            $depressed_count = array_count_values($depressed);
+            if(in_array('y',$depressed)){
+                $depressed_y_count=$depressed_count['y'];
+            }
+            else{
+                $depressed_y_count=0;
+            }
+            $depressed_percent=round($this->percent($depressed_y_count,$days), 2);
+
+
+            
+            $active_count = array_count_values($active);
+            if(in_array('y',$active)){
+                $active_y_count=$active_count['y'];
+            }
+            else{
+                $active_y_count=0;
+            }
+            $active_percent=round($this->percent($active_y_count,$days), 2);
+
+
+            $happy_count = array_count_values($happy);
+            if(in_array('y',$happy)){
+                $happy_y_count=$happy_count['y'];
+            }
+            else{
+                $happy_y_count=0;
+            }
+            $happy_percent=round($this->percent($happy_y_count,$days), 2);
+
+
+
+            
+            $exhausted_count = array_count_values($exhausted);
+            if(in_array('y',$happy)){
+                $exhausted_y_count=$exhausted_count['y'];
+            }
+            else{
+                $exhausted_y_count=0;
+            }
+            $exhausted_percent=round($this->percent($exhausted_y_count,$days), 2);
+
+
+            
+            $stressed_count = array_count_values($stressed);
+            if(in_array('y',$stressed)){
+                $stressed_y_count=$stressed_count['y'];
+            }
+            else{
+                $stressed_y_count=0;
+            }
+            $stressed_percent=round($this->percent($stressed_y_count,$days), 2);
+
+
+
+            
+            $normal_count = array_count_values($normal);
+            if(in_array('y',$normal)){
+                $normal_y_count=$normal_count['y'];
+            }
+            else{
+                $normal_y_count=0;
+            }
+            $normal_percent=round($this->percent($normal_y_count,$days), 2);
+
+
+
+            return response()->json([
+                "angry"=>$angry_percent,
+                "anxious"=>$anxious_percent,
+                "energetic"=>$energetic_percent,
+                "calm"=>$calm_percent,
+                "depressed"=>$depressed_percent,
+                "active"=>$active_percent,
+                "happy"=>$happy_percent,
+                "exhausted"=>$exhausted_percent,
+                "stressed"=>$stressed_percent,
+                "normal"=>$normal_percent
+            ]);
+         
+
+
+        }
+
+    }
+
+    
     public function get_loa_daily_planner(Request $request){
 
         $validatedData=Validator::make($request->all(),[
