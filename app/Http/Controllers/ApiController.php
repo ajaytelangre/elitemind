@@ -550,7 +550,8 @@ class ApiController extends Controller
     public function get_loa_daily_planner(Request $request){
 
         $validatedData=Validator::make($request->all(),[
-            "user_id"=>"required"
+            "user_id"=>"required",
+            "days"=>"required"
         ]);
 
         if($validatedData->fails())
@@ -561,13 +562,23 @@ class ApiController extends Controller
         }
         else{
             $id=$request->user_id;
-            $register=Register::select('month_start','month_end')
-                                ->where('id',$id)
-                                ->first();
+            $days=$request->days;
+            if($days==30){
+                $register=Register::select('month_start','month_end')
+                                    ->where('id',$id)
+                                    ->first();
 
-            $month_start=$register->month_start;
-            $month_end=$register->month_end;
-          
+                $month_start=$register->month_start;
+                $month_end=$register->month_end;
+            }
+            elseif($days==7){
+                $register=Register::select('days_start','days_end')
+                ->where('id',$id)
+                ->first();
+
+                    $month_start=$register->days_start;
+                    $month_end=$register->days_end;
+            }
 
             $info=Loa_daily_planner::where('user_id',$id)
                             ->whereBetween('created_at', [$month_start, $month_end])
@@ -596,7 +607,7 @@ class ApiController extends Controller
             else{
                 $m_vis_y_count=0;
             }
-            $m_vis_percent=round($this->percent($m_vis_y_count), 2);
+            $m_vis_percent=round($this->percent($m_vis_y_count,$days), 2);
 
 
             $ninety_count = array_count_values($ninety_day_goal); 
@@ -606,7 +617,7 @@ class ApiController extends Controller
            else{
             $ninety_y_count=0;
            }
-            $ninety_percent=round($this->percent($ninety_y_count), 2);
+            $ninety_percent=round($this->percent($ninety_y_count,$days), 2);
 
 
             $thirty_count = array_count_values($thirty_day_goal);
@@ -616,7 +627,7 @@ class ApiController extends Controller
             else{
                 $thirty_y_count=0;
             }
-            $thirty_percent=round($this->percent($thirty_y_count), 2);
+            $thirty_percent=round($this->percent($thirty_y_count,$days), 2);
 
             
             $today_count = array_count_values($plan_for_today);
@@ -626,7 +637,7 @@ class ApiController extends Controller
             else{
                 $today_y_count=0;
             }
-            $today_percent=round($this->percent($today_y_count), 2);
+            $today_percent=round($this->percent($today_y_count,$days), 2);
 
 
 
@@ -637,7 +648,7 @@ class ApiController extends Controller
             else{
                 $steal_y_count=0;
             }
-            $steal_percent=round($this->percent($steal_y_count), 2);
+            $steal_percent=round($this->percent($steal_y_count,$days), 2);
 
 
             
@@ -648,7 +659,7 @@ class ApiController extends Controller
             else{
                 $focus_y_count=0;
             }
-            $focus_percent=round($this->percent($focus_y_count), 2);
+            $focus_percent=round($this->percent($focus_y_count,$days), 2);
 
 
             $time_count = array_count_values($time_for_gratification);
@@ -658,7 +669,7 @@ class ApiController extends Controller
             else{
                 $time_y_count=0;
             }
-            $time_percent=round($this->percent($time_y_count), 2);
+            $time_percent=round($this->percent($time_y_count,$days), 2);
 
 
 
@@ -678,8 +689,8 @@ class ApiController extends Controller
 
     }
 
-    public function percent($y){
-        $per=($y*100)/30;
+    public function percent($y,$d){
+        $per=($y*100)/(int)$d;
         return $per;
     }
 
