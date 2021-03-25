@@ -15,6 +15,8 @@ use App\Models\Intellectual;
 use App\Models\Skills;
 use App\Models\Physique;
 use App\Models\Environmental;
+use App\Models\Stud_subject_covered;
+use App\Models\Stud_topic_covered;
 use Carbon\Carbon;
 use Validator;
 
@@ -434,6 +436,104 @@ class NewApiController extends Controller
 
     }
 
+
+
+    
+    public function insert_subject_covered_today(Request $request){
+
+        $validatedData=Validator::make($request->all(),[
+            "register_id"=>"required",
+            "subject_covered_today"=>"required"
+
+        ]);
+
+        if($validatedData->fails())
+        {
+            return response()->json([
+                "message"=>"validation fail",
+                "status"=>"false"
+            ]);
+        }
+        else{
+            $id=$request->register_id;
+            $c_date=date("Y-m-d");
+            $info=Stud_subject_covered::where('register_id',$id)
+                                ->whereDate('created_at','=',$c_date)
+                                ->first();
+            if($info){
+                $stud_subject_obj=Stud_subject_covered::where('register_id',$id)->first();
+            }
+            else{
+                $stud_subject_obj=new Stud_subject_covered;
+                $stud_subject_obj->register_id=$request->register_id;
+               
+            }
+
+            $stud_subject_obj->subject_covered_today =$request->subject_covered_today;
+            $stud_subject_obj->created_at =Carbon::now()->toDateTimeString();
+            $stud_subject_obj->save();
+
+            return response()->json([
+                "status" => true,
+                "message" => "Subject Covered Today Statement Added!",
+                "register_id" => $stud_subject_obj->register_id,
+                "subject_covered_today Statement" => $stud_subject_obj->subject_covered_today
+            ]);
+
+        }
+        
+        
+
+    }
+
+
+     
+    public function insert_topic_covered_today(Request $request){
+
+        $validatedData=Validator::make($request->all(),[
+            "register_id"=>"required",
+            "topic_covered_today"=>"required"
+
+        ]);
+
+        if($validatedData->fails())
+        {
+            return response()->json([
+                "message"=>"validation fail",
+                "status"=>"false"
+            ]);
+        }
+        else{
+            $id=$request->register_id;
+            $c_date=date("Y-m-d");
+            $info=Stud_topic_covered::where('register_id',$id)
+                                ->whereDate('created_at','=',$c_date)
+                                ->first();
+            if($info){
+                $stud_topic_obj=Stud_topic_covered::where('register_id',$id)->first();
+            }
+            else{
+                $stud_topic_obj=new Stud_topic_covered;
+                $stud_topic_obj->register_id=$request->register_id;
+               
+            }
+
+            $stud_topic_obj->topic_covered_today =$request->topic_covered_today;
+            $stud_topic_obj->created_at =Carbon::now()->toDateTimeString();
+            $stud_topic_obj->save();
+
+            return response()->json([
+                "status" => true,
+                "message" => "Topic Covered Today Statement Added!",
+                "register_id" => $stud_topic_obj->register_id,
+                "Topic Covered Today Statement" => $stud_topic_obj->topic_covered_today
+            ]);
+
+        }
+        
+        
+
+    }
 
 
 
