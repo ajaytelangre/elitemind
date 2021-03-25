@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Skills extends Model
+class Stud_learn_and_teach extends Model
 {
     use HasFactory;
-    protected $table="skills";
-    protected $fillable =[
-        "*"
+    protected $table="stud_learnandteachs";
+    protected $fillable = [
+        '*'
     ];
 }
+
