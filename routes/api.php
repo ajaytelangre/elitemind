@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\SchedulerController;
 use App\Http\Controllers\NewApiController;
+use App\Http\Controllers\StudentApiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -48,4 +49,8 @@ Route::post('/insert_loa_unproductive_task',[ApiController ::class,'insert_loa_u
 Route::post('/get_30day_mood',[ApiController ::class,'get_30day_mood']);
 
 Route::post('/insert_elite_petals',[NewApiController ::class,'insert_elite_petals']);
+Route::post('/insert_subject_covered_today',[NewApiController ::class,'insert_subject_covered_today']);
+Route::post('/insert_topic_covered_today',[NewApiController ::class,'insert_topic_covered_today']);
+
+Route::post('/insert_elite_stud_petals',[StudentApiController ::class,'insert_elite_stud_petals']);
 
