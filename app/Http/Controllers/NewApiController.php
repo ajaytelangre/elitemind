@@ -370,63 +370,7 @@ class NewApiController extends Controller
             return response()->json([
                 "status" => true,
                 "message" => "Elite Petals Added!",
-                // "user_id" => $user->user_id,
-                // "Party Time" => $user->party_time,
-                // "Music" => $user->music,
-                // "Movie" => $user->movie,
-                // "Dinner" => $user->dinner,
-                // "Eat Out" => $user->eat_out,
-                // "Play With Kids" => $user->play_with_kids,
-                // "Friends Night Out" => $user->friends_night_out,
-
-                // "Meditation" => $user1->meditation,
-                // "Planned Solitude" => $user1->planned_solitude,
-                // "Walk In Nature" => $user1->walk_in_nature,
-                // "Contemplation" => $user1->contemplation,
-                // "Prayer" => $user1->prayer,
-                // "Devotional Song" => $user1->devotional_song,
-                // "Visit to Religious Place" => $user1->visit_to_religious_place,
-
-                // "Spend Time With Family" => $user2->spend_time_with_family,
-                // "Be With Friend" => $user2->be_with_friend,
-                // "Love Life" => $user2->love_life,
-                // "Shower Emphathy" => $user2->shower_emphathy,
-                // "Positive Feeling On Relation" => $user2->positive_feeling_on_relation,
-                // "Positive Feeling With Colleagues" => $user2->positive_feeling_with_colleagues,
-                // "Gratification" => $user2->gratification,
-
-                // "Gaining Knowledge" => $user3->gaining_knowledge,
-                // "Reading" => $user3->reading,
-                // "Learning Language" => $user3->learning_language,
-                // "Planning" => $user3->planning,
-                // "Imagination" => $user3->imagination,
-                // "Good Movie" => $user3->good_movie,
-                // "Goals" => $user3->goals,
-
-                // "Spend Time On Project" => $user4->spend_time_on_project,
-                // "Planning for Financial Helth" => $user4->planning_for_financial_helth,
-                // "saving " => $user4->saving,
-                // "Investment " => $user4->investment,
-                // "Negotiating Skills" => $user4->negotiating_skills,
-                // "Value You Are Worth Of" => $user4->value_you_are_worth_for,
-                // "Develop New Skill Sets" => $user4->develop_new_skill_sets,
-
-
-                // "Yoga" => $user5->yoga,
-                // "Hit The Gym" => $user5->hit_the_gym,
-                // "Swimming" => $user5->swimming,
-                // "Cycling" => $user5->cycling,
-                // "Walking" => $user5->walking,
-                // "Trekking" => $user5->trekking,
-                // "Dancing" => $user5->dancing,
-
-                // "Environmental" => $user6->environmental,
-                // "Personal Surrounding" => $user6->personal_surrounding,
-                // "Recycling Trash" => $user6->recycling_trash,
-                // "Grooming and Carrying One Self" => $user6->grooming,
-                // "Personal Hyigeine" => $user6->personal_hyigeine,
-                // "Nutrition" => $user6->nutrition,
-                // "Detox" => $user6->detox
+                
 
             ]);
 

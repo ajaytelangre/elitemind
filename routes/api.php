@@ -53,4 +53,5 @@ Route::post('/insert_subject_covered_today',[NewApiController ::class,'insert_su
 Route::post('/insert_topic_covered_today',[NewApiController ::class,'insert_topic_covered_today']);
 
 Route::post('/insert_elite_stud_petals',[StudentApiController ::class,'insert_elite_stud_petals']);
-
+Route::post('/get_petals_percentage',[ApiController ::class,'get_petals_percentage']);
+Route::post('/get_petals',[ApiController ::class,'get_petals']);
