@@ -11,6 +11,7 @@ use App\Models\Stud_intellectual_break;
 use App\Models\Stud_learn_and_teach;
 use App\Models\Stud_physique;
 use App\Models\Stud_rule_of_three;
+use App\Models\Stud_daily_planner;
 use Carbon\Carbon;
 use Validator;
 
@@ -244,5 +245,64 @@ class StudentApiController extends Controller
         
 
     }
+
+
+    public function insert_stud_daily_planner(Request $request){
+
+      $validatedData=Validator::make($request->all(),[
+          "user_id"=>"required",
+          
+
+      ]);
+
+      if($validatedData->fails())
+      {
+          return response()->json([
+              "message"=>"validation fail",
+              "status"=>"false"
+          ]);
+      }
+      else{
+          $id=$request->user_id;
+          $c_date=date("Y-m-d");
+          $info=Stud_daily_planner::where('user_id',$id)
+                              ->whereDate('created_at','=',$c_date)
+                              ->first();
+          if($info){
+              $user=Stud_daily_planner::where('user_id',$id)->first();
+          }
+          else{
+              $user=new Stud_daily_planner;
+              $user->user_id=$request->user_id;
+             
+          }
+
+          $user->morning_visualization =$request->morning_visualization;
+          $user->unanswred_questions =$request->unanswred_questions;
+          $user->two_coloumn_stratergy =$request->two_coloumn_stratergy;
+          $user->morning_plan_your_day =$request->morning_plan_your_day;
+          $user->take_test =$request->take_test;
+          $user->rule_of_three =$request->rule_of_three;
+          $user->rule_of_one =$request->rule_of_one;
+          $user->gratification =$request->gratification;
+          $user->save();
+
+          return response()->json([
+              
+              "message" => "data inserted",
+             
+          ]);
+
+      }
+      
+      
+
+  }
+
+
+
+
+
+
 
 }
