@@ -303,6 +303,172 @@ class StudentApiController extends Controller
 
 
 
+  
+  public function get_stud_daily_planner(Request $request){
+
+    $validatedData=Validator::make($request->all(),[
+        "user_id"=>"required",
+        "days"=>"required"
+    ]);
+
+    if($validatedData->fails())
+    {
+        return response()->json([
+            "message"=>"validation fail"
+        ]);
+    }
+    else{
+        $id=$request->user_id;
+        $days=$request->days;
+        if($days==30){
+            $register=Register::select('month_start','month_end')
+                                ->where('id',$id)
+                                ->first();
+
+            $month_start=$register->month_start;
+            $month_end=$register->month_end;
+        }
+        elseif($days==7){
+            $register=Register::select('days_start','days_end')
+            ->where('id',$id)
+            ->first();
+
+                $month_start=$register->days_start;
+                $month_end=$register->days_end;
+        }
+
+        $info=Stud_daily_planner::where('user_id',$id)
+                        ->whereBetween('created_at', [$month_start, $month_end])
+                        ->get();
+        $morning_visualization=[];
+        $unanswred_questions=[];
+        $two_coloumn_stratergy=[];
+        $morning_plan_your_day=[];
+        $take_test=[];
+        $rule_of_three=[];
+        $rule_of_one=[];
+        $gratification=[];
+        foreach($info as $i)
+        {
+            array_push($morning_visualization,$i->morning_visualization);
+            array_push($unanswred_questions,$i->unanswred_questions);
+            array_push($two_coloumn_stratergy,$i->two_coloumn_stratergy);
+            array_push($morning_plan_your_day,$i->morning_plan_your_day);
+            array_push($take_test,$i->take_test);
+            array_push($rule_of_three,$i->rule_of_three);
+            array_push($rule_of_one,$i->rule_of_one);
+            array_push($gratification,$i->gratification);
+        }
+       $m_vis_count = array_count_values($morning_visualization);
+
+        if(in_array('y',$morning_visualization)){
+            $m_vis_y_count=$m_vis_count['y'];
+        }
+        else{
+            $m_vis_y_count=0;
+        }
+        $m_vis_percent=round($this->percent($m_vis_y_count,$days), 2);
+
+
+        $unanswred_questions_count = array_count_values($unanswred_questions); 
+       if(in_array('y',$unanswred_questions)){
+        $unanswred_questions_count_y_count=$unanswred_questions_count['y'];
+       }
+       else{
+        $unanswred_questions_count_y_count=0;
+       }
+        $unanswred_questions_percent=round($this->percent($unanswred_questions_count_y_count,$days), 2);
+
+
+        $two_coloumn_stratergy_count = array_count_values($two_coloumn_stratergy);
+        if(in_array('y',$two_coloumn_stratergy)){
+            $two_coloumn_stratergy_y_count=$two_coloumn_stratergy_count['y'];
+        }
+        else{
+            $two_coloumn_stratergy_y_count=0;
+        }
+        $two_coloumn_stratergy_percent=round($this->percent($two_coloumn_stratergy_y_count,$days), 2);
+
+        
+        $morning_plan_your_day_count = array_count_values($morning_plan_your_day);
+        if(in_array('y',$morning_plan_your_day)){
+            $morning_plan_your_day_y_count=$morning_plan_your_day_count['y'];
+        }
+        else{
+            $morning_plan_your_day_y_count=0;
+        }
+        $morning_plan_your_day_percent=round($this->percent($morning_plan_your_day_y_count,$days), 2);
+
+
+
+        $take_test_count = array_count_values($take_test);
+        if(in_array('y',$take_test)){
+            $take_test_y_count=$take_test_count['y'];
+        }
+        else{
+            $take_test_y_count=0;
+        }
+        $take_test_percent=round($this->percent($take_test_y_count,$days), 2);
+
+
+        
+        $rule_of_three_count = array_count_values($rule_of_three);
+        if(in_array('y',$rule_of_three)){
+            $rule_of_three_y_count=$rule_of_three_count['y'];
+        }
+        else{
+            $rule_of_three_y_count=0;
+        }
+        $rule_of_three_percent=round($this->percent($rule_of_three_y_count,$days), 2);
+
+
+        $rule_of_one_count = array_count_values($rule_of_one);
+        if(in_array('y',$rule_of_one)){
+            $rule_of_one_y_count=$rule_of_one_count['y'];
+        }
+        else{
+            $rule_of_one_y_count=0;
+        }
+      $rule_of_one_percent=round($this->percent($rule_of_one_y_count,$days), 2);
+
+
+      $gratification_count = array_count_values($gratification);
+      if(in_array('y',$gratification)){
+          $gratification_y_count=$gratification_count['y'];
+      }
+      else{
+          $gratification_y_count=0;
+      }
+     $gratification_percent=round($this->percent($gratification_y_count,$days), 2);
+
+
+
+        return response()->json([
+            "morning_visualization"=>$m_vis_percent,
+            "unanswred_questions"=>$unanswred_questions_percent,
+            "two_coloumn_stratergy"=>$two_coloumn_stratergy_percent,
+            "morning_plan_your_day"=>$morning_plan_your_day_percent,
+            "take_test"=>$take_test_percent,
+            "rule_of_three"=>$rule_of_three_percent,
+            "rule_of_one"=>$rule_of_one_percent,
+            "gratification"=>$gratification_percent
+        ]);
+     
+
+
+    }
+
+}
+
+public function percent($y,$d){
+    $per=($y*100)/(int)$d;
+    return $per;
+}
+
+
+
+
+
 
 
 }

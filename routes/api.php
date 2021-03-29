@@ -56,3 +56,4 @@ Route::post('/insert_elite_stud_petals',[StudentApiController ::class,'insert_el
 Route::post('/get_petals_percentage',[ApiController ::class,'get_petals_percentage']);
 Route::post('/get_petals',[ApiController ::class,'get_petals']);
 Route::post('/insert_stud_daily_planner',[StudentApiController ::class,'insert_stud_daily_planner']);
+Route::post('/get_stud_daily_planner',[StudentApiController ::class,'get_stud_daily_planner']);
