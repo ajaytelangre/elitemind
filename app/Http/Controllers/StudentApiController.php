@@ -1755,6 +1755,74 @@ $audiomotivational_percent=round($this->percent($audiomotivational_y_count,$days
 
 }
 
+public function stud_rule_of_three_percent(Request $request){
+
+    $validatedData=Validator::make($request->all(),[
+        "user_id"=>"required",
+        "days"=>"required"
+    ]);
+
+    if($validatedData->fails())
+    {
+        return response()->json([
+            "message"=>"validation fail"
+        ]);
+    }
+    else{
+        $id=$request->user_id;
+        $days=$request->days;
+        if($days==30){
+            $register=Register::select('month_start','month_end')
+                                ->where('id',$id)
+                                ->first();
+
+            $month_start=$register->month_start;
+            $month_end=$register->month_end;
+        }
+        elseif($days==7){
+            $register=Register::select('days_start','days_end')
+            ->where('id',$id)
+            ->first();
+
+                $month_start=$register->days_start;
+                $month_end=$register->days_end;
+        }
+
+        //rule of threee
+
+                
+        $stud_rule_of_three=Stud_rule_of_three::where('user_id',$id)
+                        ->whereBetween('created_at', [$month_start, $month_end])
+                        ->get();
+        $threeHoursperday=[];
+        
+      
+        foreach($stud_rule_of_three as $i)
+        {
+            array_push($threeHoursperday,$i->threeHoursperday);
+            
+          
+        }
+
+        $threeHoursperday_count = array_count_values($threeHoursperday);
+            if(in_array('y',$threeHoursperday)){
+                $threeHoursperday_y_count=$threeHoursperday_count['y'];
+            }
+            else{
+                $threeHoursperday_y_count=0;
+            }
+            $threeHoursperday_percent=round($this->percent($threeHoursperday_y_count,$days), 2);
+
+            //rule of three
+            return response()->json([
+                "threeHoursperday_percent"=>$threeHoursperday_percent,
+            ]);
+
+
+    }
+
+}
+
 
 
 
