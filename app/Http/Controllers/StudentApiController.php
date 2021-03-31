@@ -1422,6 +1422,137 @@ $audiomotivational_percent=round($this->percent($audiomotivational_y_count,$days
 
 }
 
+
+public function stud_learn_and_tech_percent(Request $request){
+
+    $validatedData=Validator::make($request->all(),[
+        "user_id"=>"required",
+        "days"=>"required"
+    ]);
+
+    if($validatedData->fails())
+    {
+        return response()->json([
+            "message"=>"validation fail"
+        ]);
+    }
+    else{
+        $id=$request->user_id;
+        $days=$request->days;
+        if($days==30){
+            $register=Register::select('month_start','month_end')
+                                ->where('id',$id)
+                                ->first();
+
+            $month_start=$register->month_start;
+            $month_end=$register->month_end;
+        }
+        elseif($days==7){
+            $register=Register::select('days_start','days_end')
+            ->where('id',$id)
+            ->first();
+
+                $month_start=$register->days_start;
+                $month_end=$register->days_end;
+        }
+
+         //learn and tech
+        $info=Stud_learn_and_teach::where('user_id',$id)
+                        ->whereBetween('created_at', [$month_start, $month_end])
+                        ->get();
+        $chapters=[];
+        $diagrams=[];
+        $flowcharts=[];
+        $imaginaryaudience=[];
+        $ownwords=[];
+        $activework=[];
+      
+        foreach($info as $i)
+        {
+            array_push($chapters,$i->chapters);
+            array_push($diagrams,$i->diagrams);
+            array_push($flowcharts,$i->flowcharts);
+            array_push($imaginaryaudience,$i->imaginaryaudience);
+            array_push($ownwords,$i->ownwords);
+            array_push($activework,$i->activework);
+          
+        }
+
+        $chapters_count = array_count_values($chapters);
+            if(in_array('y',$chapters)){
+                $chapters_y_count=$chapters_count['y'];
+            }
+            else{
+                $chapters_y_count=0;
+            }
+            $chapters_percent=round($this->percent($chapters_y_count,$days), 2);
+
+
+         $diagrams_count = array_count_values($diagrams);
+            if(in_array('y',$diagrams)){
+                $diagrams_y_count=$diagrams_count['y'];
+            }
+            else{
+                $diagrams_y_count=0;
+            }
+            $diagrams_percent=round($this->percent($diagrams_y_count,$days), 2);
+
+
+         $flowcharts_count = array_count_values($flowcharts);
+            if(in_array('y',$flowcharts)){
+                $flowcharts_y_count=$flowcharts_count['y'];
+            }
+            else{
+                $flowcharts_y_count=0;
+            }
+         $flowcharts_percent=round($this->percent($flowcharts_y_count,$days), 2);
+
+        $imaginaryaudience_count = array_count_values($imaginaryaudience);
+         if(in_array('y',$imaginaryaudience)){
+             $imaginaryaudience_y_count=$imaginaryaudience_count['y'];
+         }
+         else{
+             $imaginaryaudience_y_count=0;
+         }
+      $imaginaryaudience_percent=round($this->percent($imaginaryaudience_y_count,$days), 2);
+
+
+      
+
+
+        $ownwords_count = array_count_values($ownwords);
+        if(in_array('y',$ownwords)){
+            $ownwords_y_count=$ownwords_count['y'];
+        }
+        else{
+            $ownwords_y_count=0;
+        }
+    $ownwords_percent=round($this->percent($ownwords_y_count,$days), 2);
+
+
+    $activework_count = array_count_values($activework);
+    if(in_array('y',$activework)){
+        $activework_y_count=$activework_count['y'];
+    }
+    else{
+        $activework_y_count=0;
+    }
+    $activework_percent=round($this->percent($activework_y_count,$days), 2);
+
+     $stud_learn_tech_percentage=($chapters_percent+$diagrams_percent+$activework_percent+$imaginaryaudience_percent+$ownwords_percent+$activework_percent)/6;
+
+
+    //learn and tech
+    return response()->json([
+        "stud_learn_tech_percentage"=>$stud_learn_tech_percentage
+    ]);
+
+
+
+    }
+
+}
+
 public function percent($y,$d){
     $per=($y*100)/(int)$d;
     return $per;
