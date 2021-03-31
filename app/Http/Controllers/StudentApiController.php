@@ -1559,6 +1559,205 @@ public function stud_learn_and_tech_percent(Request $request){
 
 }
 
+
+public function stud_intelectual_break_percent(Request $request){
+
+        $validatedData=Validator::make($request->all(),[
+        "user_id"=>"required",
+        "days"=>"required"
+    ]);
+
+    if($validatedData->fails())
+    {
+        return response()->json([
+            "message"=>"validation fail"
+        ]);
+    }
+    else{
+        $id=$request->user_id;
+        $days=$request->days;
+        if($days==30){
+            $register=Register::select('month_start','month_end')
+                                ->where('id',$id)
+                                ->first();
+
+            $month_start=$register->month_start;
+            $month_end=$register->month_end;
+        }
+        elseif($days==7){
+            $register=Register::select('days_start','days_end')
+            ->where('id',$id)
+            ->first();
+
+                $month_start=$register->days_start;
+                $month_end=$register->days_end;
+        }
+
+
+        //intelectual break 
+
+
+        $intelectual=Stud_intellectual_break::where('user_id',$id)
+                        ->whereBetween('created_at', [$month_start, $month_end])
+                        ->get();
+        $gainingknowledge=[];
+        $reading=[];
+        $learning=[];
+        $planning=[];
+        $imagination=[];
+        $goodmovies=[];
+        $goals=[];
+        $values=[];
+        $music=[];
+        $audiomotivational=[];
+      
+        foreach($intelectual as $i)
+        {
+            array_push($gainingknowledge,$i->gainingknowledge);
+            array_push($reading,$i->reading);
+            array_push($learning,$i->learning);
+            array_push($planning,$i->planning);
+            array_push($imagination,$i->imagination);
+            array_push($goodmovies,$i->goodmovies);
+
+            array_push($goals,$i->goals);
+            array_push($values,$i->values);
+            array_push($music,$i->music);
+            array_push($audiomotivational,$i->audiomotivational);
+          
+        }
+
+        $gainingknowledge_count = array_count_values($gainingknowledge);
+            if(in_array('y',$gainingknowledge)){
+                $gainingknowledge_y_count=$gainingknowledge_count['y'];
+            }
+            else{
+                $gainingknowledge_y_count=0;
+            }
+            $gainingknowledge_percent=round($this->percent($gainingknowledge_y_count,$days), 2);
+
+
+         $reading_count = array_count_values($reading);
+            if(in_array('y',$reading)){
+                $reading_y_count=$reading_count['y'];
+            }
+            else{
+                $reading_y_count=0;
+            }
+          $reading_percent=round($this->percent($reading_y_count,$days), 2);
+
+
+         $learning_count = array_count_values($learning);
+            if(in_array('y',$learning)){
+                $learning_y_count=$learning_count['y'];
+            }
+            else{
+                $learning_y_count=0;
+            }
+         $learning_percent=round($this->percent($learning_y_count,$days), 2);
+
+        $planning_count = array_count_values($planning);
+         if(in_array('y',$planning)){
+             $planning_y_count=$planning_count['y'];
+         }
+         else{
+             $planning_y_count=0;
+         }
+     $planning_percent=round($this->percent($planning_y_count,$days), 2);
+
+
+      $imagination_count = array_count_values($imagination);
+      if(in_array('y',$imagination)){
+          $imagination_y_count=$imagination_count['y'];
+      }
+      else{
+          $imagination_y_count=0;
+      }
+   $imagination_percent=round($this->percent($imagination_y_count,$days), 2);
+
+
+    $goodmovies_count = array_count_values($goodmovies);
+    if(in_array('y',$goodmovies)){
+        $goodmovies_y_count=$goodmovies_count['y'];
+    }
+    else{
+        $goodmovies_y_count=0;
+    }
+  $goodmovies_percent=round($this->percent($goodmovies_y_count,$days), 2);
+
+
+  $goals_count = array_count_values($goals);
+  if(in_array('y',$goals)){
+      $goals_y_count=$goals_count['y'];
+  }
+  else{
+      $goals_y_count=0;
+  }
+  $goals_percent=round($this->percent($goals_y_count,$days), 2);
+
+
+  
+  $values_count = array_count_values($values);
+  if(in_array('y',$values)){
+      $values_y_count=$values_count['y'];
+  }
+  else{
+      $values_y_count=0;
+  }
+$values_percent=round($this->percent($values_y_count,$days), 2);
+
+
+
+$music_count = array_count_values($music);
+if(in_array('y',$music)){
+    $music_y_count=$music_count['y'];
+}
+else{
+    $music_y_count=0;
+}
+$music_percent=round($this->percent($music_y_count,$days), 2);
+
+
+
+$audiomotivational_count = array_count_values($audiomotivational);
+if(in_array('y',$audiomotivational)){
+    $audiomotivational_y_count=$audiomotivational_count['y'];
+}
+else{
+    $audiomotivational_y_count=0;
+}
+$audiomotivational_percent=round($this->percent($audiomotivational_y_count,$days), 2);
+
+
+
+
+      return response()->json([
+        "gainingknowledge_percent"=>$gainingknowledge_percent,
+        "reading_percent"=>$reading_percent,
+        "planning_percent"=>$planning_percent,
+        "imagination_percent"=>$imagination_percent,
+        "goodmovies_percent"=>$goodmovies_percent,
+        "goals_percent"=>$goals_percent,
+        "values_percent"=>$values_percent,
+        "music_percent"=>$music_percent,
+        "audiomotivational_percent"=>$audiomotivational_percent,
+
+    ]);
+
+
+
+
+//intelectual break 
+
+
+    }
+
+
+}
+
+
+
+
 public function percent($y,$d){
     $per=($y*100)/(int)$d;
     return $per;
