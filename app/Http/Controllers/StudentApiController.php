@@ -1539,12 +1539,18 @@ public function stud_learn_and_tech_percent(Request $request){
     }
     $activework_percent=round($this->percent($activework_y_count,$days), 2);
 
-     $stud_learn_tech_percentage=($chapters_percent+$diagrams_percent+$activework_percent+$imaginaryaudience_percent+$ownwords_percent+$activework_percent)/6;
+  
 
 
     //learn and tech
     return response()->json([
-        "stud_learn_tech_percentage"=>$stud_learn_tech_percentage
+        "chapters_percent"=>$chapters_percent,
+        "diagrams_percent"=>$diagrams_percent,
+        "activework_percent"=>$activework_percent,
+        "imaginaryaudience_percent"=>$imaginaryaudience_percent,
+        "ownwords_percent"=>$ownwords_percent,
+        "activework_percent"=>$activework_percent,
+
     ]);
 
 
