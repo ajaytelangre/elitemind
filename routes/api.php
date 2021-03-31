@@ -59,3 +59,4 @@ Route::post('/insert_stud_daily_planner',[StudentApiController ::class,'insert_s
 Route::post('/get_stud_daily_planner',[StudentApiController ::class,'get_stud_daily_planner']);
 Route::post('/get_student_petals_percent',[StudentApiController ::class,'get_student_petals_percent']);
 Route::post('/stud_learn_and_tech_percent',[StudentApiController ::class,'stud_learn_and_tech_percent']);
+Route::post('/stud_intelectual_break_percent',[StudentApiController ::class,'stud_intelectual_break_percent']);
