@@ -61,3 +61,4 @@ Route::post('/get_student_petals_percent',[StudentApiController ::class,'get_stu
 Route::post('/stud_learn_and_tech_percent',[StudentApiController ::class,'stud_learn_and_tech_percent']);
 Route::post('/stud_intelectual_break_percent',[StudentApiController ::class,'stud_intelectual_break_percent']);
 Route::post('/stud_rule_of_three_percent',[StudentApiController ::class,'stud_rule_of_three_percent']);
+Route::post('/get_student_petals',[StudentApiController ::class,'get_student_petals']);
